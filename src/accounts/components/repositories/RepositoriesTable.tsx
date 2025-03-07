@@ -6,7 +6,7 @@ import {
   TableBody,
   TableCell,
 } from '@/components/ui/table';
-import { Repository } from '../interfaces/repository';
+import { Repository } from '../../interfaces/repository';
 import { FC } from 'react';
 import { GITHUB_URL } from '@/constants/app-constants';
 import { Link } from 'react-router';
@@ -53,7 +53,7 @@ export const RepositoriesTable: FC<RepositoryTableProps> = ({
             </TableCell>
             <TableCell>
               <Link
-                to={`/accounts/${id}/repositories`}
+                to={`/accounts/${accountName}/repositories/${name}/pulls`}
                 className={cn(
                   buttonVariants({ variant: 'link' }),
                   'text-blue-500 hover:text-blue-700 !pl-0'

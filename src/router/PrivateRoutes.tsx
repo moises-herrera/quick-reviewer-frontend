@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 import { privateRoutes } from './private-routes-data';
 import { AppSidebar } from '@/shared/components/AppSidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
@@ -14,6 +14,8 @@ const PrivateRoutes = () => {
             {privateRoutes.map(({ path, element }) => (
               <Route key={path} path={path} element={element} />
             ))}
+
+            <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>
         </main>
       </SidebarProvider>

@@ -32,7 +32,11 @@ export const Login = () => {
       <footer className="absolute bottom-0 w-full text-center p-4">
         <p>
           Developed by{' '}
-          <Link target="_blank" to="https://github.com/moises-herrera">
+          <Link
+            target="_blank"
+            to="https://github.com/moises-herrera"
+            className="text-blue-600"
+          >
             @moises-herrera
           </Link>
         </p>

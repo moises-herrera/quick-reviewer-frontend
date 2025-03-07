@@ -7,7 +7,7 @@ export type AuthStatus = 'authenticated' | 'not-authenticated' | 'checking';
 export interface AuthState {
   user?: User;
   status: AuthStatus;
-  checkStatus: () => Promise<void>;
+  checkStatus: () => Promise<boolean>;
   logout: () => void;
 }
 
@@ -19,9 +19,14 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
     const user = await checkAuthStatus();
 
-    if (!user) return set({ user: undefined, status: 'not-authenticated' });
+    if (!user) {
+      set({ user: undefined, status: 'not-authenticated' });
+      return false;
+    }
 
     set({ user, status: 'authenticated' });
+
+    return true;
   },
   logout: () => {
     set({ user: undefined, status: 'not-authenticated' });

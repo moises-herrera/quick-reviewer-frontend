@@ -1,14 +1,25 @@
-import { Route, Routes } from 'react-router';
-import { AccountsMain } from '../components/AccountsMain';
-import { Repositories } from '../components/Repositories';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Organizations } from '../components/Organizations';
+import { Users } from '../components/Users';
 
 export const Accounts = () => {
   return (
-    <section className="w-full">
-      <Routes>
-        <Route path="/" element={<AccountsMain />} />
-        <Route path="/:accountId/repositories" element={<Repositories />} />
-      </Routes>
-    </section>
+    <>
+      <h2 className="text-2xl font-semibold mb-4">Accounts</h2>
+
+      <Tabs defaultValue="organizations" className="w-full">
+        <TabsList>
+          <TabsTrigger value="organizations">Organizations</TabsTrigger>
+          <TabsTrigger value="users">Users</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="organizations">
+          <Organizations />
+        </TabsContent>
+        <TabsContent value="users">
+          <Users />
+        </TabsContent>
+      </Tabs>
+    </>
   );
 };

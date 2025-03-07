@@ -1,33 +1,35 @@
 import { TableWrapper } from '@/shared/components/TableWrapper';
 import { useSearch } from '@/shared/hooks/useSearch';
 import { useQuery } from '@tanstack/react-query';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { getRepositories } from '../../actions/repository.actions';
+import { useNavigate, useParams } from 'react-router';
 import { RepositoriesTable } from './RepositoriesTable';
-import { getRepositories } from '../actions/repository';
-import { useLocation, useParams } from 'react-router';
+import { TableTitle } from '@/shared/components/TableTitle';
+import { toast } from 'sonner';
+
+const LIMIT = 20;
 
 export const Repositories = () => {
-  const { accountId } = useParams();
-  const {
-    state: { accountName },
-  } = useLocation();
+  const navigate = useNavigate();
+  const { ownerName = '' } = useParams();
   const { debouncedSearchTerm, onSearch } = useSearch({ value: '' });
   const [page, setPage] = useState<number>(1);
-  const { data, isLoading, isRefetching } = useQuery({
+  const { data, isLoading, isRefetching, error } = useQuery({
     queryKey: [
       'repositories',
       {
-        ownerId: Number(accountId),
+        ownerName,
         page,
-        limit: 20,
+        limit: LIMIT,
         search: debouncedSearchTerm,
       },
     ],
     queryFn: () =>
       getRepositories({
-        ownerId: Number(accountId),
+        ownerName,
         page,
-        limit: 20,
+        limit: LIMIT,
         search: debouncedSearchTerm,
       }),
     staleTime: 1000 * 60 * 60,
@@ -35,14 +37,20 @@ export const Repositories = () => {
   const totalPages = useMemo(() => {
     if (!data) return 0;
 
-    return Math.ceil(data?.total / 10);
+    return Math.ceil(data?.total / LIMIT);
   }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error('Something went wrong while fetching repositories');
+
+      navigate(`/accounts`);
+    }
+  }, [error]);
 
   return (
     <section className="w-full h-full">
-      <h2 className="text-2xl font-semibold mb-4 truncate">
-        Repositories of {accountName}
-      </h2>
+      <TableTitle title={`Repositories of ${ownerName}`} />
 
       <TableWrapper
         isLoading={isLoading || isRefetching}
@@ -51,7 +59,7 @@ export const Repositories = () => {
         page={page}
         onPageChange={setPage}
       >
-        <RepositoriesTable accountName={accountName} data={data?.data || []} />
+        <RepositoriesTable accountName={ownerName} data={data?.data || []} />
       </TableWrapper>
     </section>
   );

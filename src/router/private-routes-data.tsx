@@ -1,6 +1,6 @@
-import { Accounts } from '@/accounts/pages/Accounts';
 import { Dashboard } from '../dashboard/pages/Dashboard';
 import { RouteData } from './interfaces/route-data';
+import { AccountsRoutes } from '@/accounts/routes/AccountsRoutes';
 
 export const privateRoutes: RouteData[] = [
   {
@@ -9,6 +9,6 @@ export const privateRoutes: RouteData[] = [
   },
   {
     path: '/accounts/*',
-    element: <Accounts />,
+    element: <AccountsRoutes />,
   },
 ];

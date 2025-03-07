@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { FC, JSX } from 'react';
 import { TableSkeleton } from './TableSkeleton';
 import { Search } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface TableWrapperProps {
   children?: JSX.Element;
@@ -28,36 +29,57 @@ export const TableWrapper: FC<TableWrapperProps> = ({
 
   return (
     <>
-      <div className="mt-4 flex flex-col space-y-4">
-        <div>
-          <Input
-            className="max-w-[40%]"
-            placeholder="Search"
-            onChange={(event) => handleSearch(event.target.value)}
-            disabled={isLoading}
-            startIcon={Search}
-          />
+      <section className="mt-4 flex flex-col space-y-4">
+        <Input
+          className="max-w-[40%]"
+          placeholder="Search"
+          onChange={(event) => handleSearch(event.target.value)}
+          disabled={isLoading}
+          startIcon={Search}
+        />
+
+        {isLoading ? (
+          <TableSkeleton />
+        ) : totalPages > 0 ? (
+          children
+        ) : (
+          <div className="flex h-[300px] w-full items-center justify-center rounded-md border-2 border-muted">
+            <p className="text-muted-foreground">No data found</p>
+          </div>
+        )}
+      </section>
+
+      {(isLoading || totalPages > 0) && (
+        <div
+          className={cn(
+            'flex items-center py-4',
+            totalPages === 0 ? 'justify-end' : 'justify-between'
+          )}
+        >
+          {totalPages > 0 && (
+            <p className="text-sm text-muted-foreground">
+              Page {page} of {totalPages}
+            </p>
+          )}
+
+          <div className="space-x-2">
+            <Button
+              variant="outline"
+              disabled={page === 1 || isLoading}
+              onClick={() => onPageChange(page - 1)}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              disabled={page === totalPages || totalPages === 0 || isLoading}
+              onClick={() => onPageChange(page + 1)}
+            >
+              Next
+            </Button>
+          </div>
         </div>
-
-        {isLoading ? <TableSkeleton /> : children}
-      </div>
-
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          disabled={page === 1 || isLoading}
-          onClick={() => onPageChange(page - 1)}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          disabled={page === totalPages || totalPages === 0 || isLoading}
-          onClick={() => onPageChange(page + 1)}
-        >
-          Next
-        </Button>
-      </div>
+      )}
     </>
   );
 };

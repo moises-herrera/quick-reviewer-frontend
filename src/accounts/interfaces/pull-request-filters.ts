@@ -1,5 +1,6 @@
 import { PaginationOptions } from '@/shared/interfaces/pagination-options';
 
-export interface RepositoryFilters extends PaginationOptions {
+export interface PullRequestFilters extends PaginationOptions {
   ownerName: string;
+  repositoryName: string;
 }

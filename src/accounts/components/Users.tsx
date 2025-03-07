@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { getUsers } from '../actions/accounts';
+import { getUsers } from '../actions/accounts.actions';
 import { TableWrapper } from '@/shared/components/TableWrapper';
 import { useSearch } from '@/shared/hooks/useSearch';
 import { AccountsTable } from './AccountsTable';

@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { getOrganizations } from '../actions/accounts';
+import { getOrganizations } from '../actions/accounts.actions';
 import { TableWrapper } from '@/shared/components/TableWrapper';
 import { useSearch } from '@/shared/hooks/useSearch';
 import { AccountsTable } from './AccountsTable';
+
+const LIMIT = 20;
 
 export const Organizations = () => {
   const { debouncedSearchTerm, onSearch } = useSearch({ value: '' });
@@ -13,14 +15,14 @@ export const Organizations = () => {
       'accounts',
       {
         page,
-        limit: 20,
+        limit: LIMIT,
         search: debouncedSearchTerm,
       },
     ],
     queryFn: () =>
       getOrganizations({
         page,
-        limit: 20,
+        limit: LIMIT,
         search: debouncedSearchTerm,
       }),
     staleTime: 1000 * 60 * 60,
@@ -28,7 +30,7 @@ export const Organizations = () => {
   const totalPages = useMemo(() => {
     if (!data) return 0;
 
-    return Math.ceil(data?.total / 10);
+    return Math.ceil(data?.total / LIMIT);
   }, [data]);
 
   return (

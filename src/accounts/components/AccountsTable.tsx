@@ -12,7 +12,6 @@ import { FC } from 'react';
 import { Account } from '../interfaces/account';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ArrowRight } from 'lucide-react';
 
 interface AccountsTableProps {
   data: Account[];
@@ -48,16 +47,13 @@ export const AccountsTable: FC<AccountsTableProps> = ({ data }) => {
             </TableCell>
             <TableCell>
               <Link
-                to={`/accounts/${id}/repositories`}
-                state={{
-                  accountName: name,
-                }}
+                to={`/accounts/${name}/repositories`}
                 className={cn(
                   buttonVariants({ variant: 'link' }),
                   'text-blue-500 hover:text-blue-700 !pl-0'
                 )}
               >
-                <span>View repositories</span>
+                View repositories
               </Link>
             </TableCell>
           </TableRow>

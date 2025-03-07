@@ -4,7 +4,7 @@ import { PaginatedResponse } from '@/shared/interfaces/paginated-response';
 import { Repository } from '../interfaces/repository';
 
 export const getRepositories = async ({
-  ownerId,
+  ownerName: ownerId,
   ...options
 }: RepositoryFilters) => {
   const { data } = await quickReviewerApi.get<PaginatedResponse<Repository>>(
