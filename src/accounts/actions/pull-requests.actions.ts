@@ -7,7 +7,7 @@ export const getPullRequests = async ({
   ...options
 }: PullRequestFilters) => {
   const { data } = await quickReviewerApi.get(
-    `/analytics/accounts/${ownerName}/repositories/${repositoryName}/pull-requests`,
+    `/accounts/${ownerName}/repositories/${repositoryName}/pull-requests`,
     {
       params: options,
     }

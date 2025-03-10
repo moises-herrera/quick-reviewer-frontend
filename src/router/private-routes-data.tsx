@@ -1,14 +1,19 @@
-import { Dashboard } from '../dashboard/pages/Dashboard';
 import { RouteData } from './interfaces/route-data';
-import { AccountsRoutes } from '@/accounts/routes/AccountsRoutes';
+import { LazyLoadRoute } from './LazyLoadRoute';
 
 export const privateRoutes: RouteData[] = [
   {
     path: '/dashboard',
-    element: <Dashboard />,
+    element: LazyLoadRoute(() => import('../dashboard/pages/Dashboard.tsx')),
   },
   {
-    path: '/accounts/*',
-    element: <AccountsRoutes />,
+    path: '/history/*',
+    element: LazyLoadRoute(
+      () => import('../accounts/routes/AccountsRoutes.tsx')
+    ),
+  },
+  {
+    path: '/profile',
+    element: LazyLoadRoute(() => import('../profile/pages/Profile.tsx')),
   },
 ];

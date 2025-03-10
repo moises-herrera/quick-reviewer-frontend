@@ -46,7 +46,7 @@ export const PullRequests = () => {
     if (error) {
       toast.error('Something went wrong while fetching pull requests');
 
-      navigate(`/accounts/${ownerName}/repositories`);
+      navigate(`/history/${ownerName}/repositories`);
     }
   }, [error]);
 

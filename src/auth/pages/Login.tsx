@@ -1,12 +1,25 @@
 import { VITE_API_URL } from '@/constants/app-constants';
 import { buttonVariants } from '@/components/ui/button';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import Github from '@/shared/icons/Github';
 import clsx from 'clsx';
+import { useEffect, useMemo } from 'react';
+import { toast } from 'sonner';
 
 const SIGN_IN_WITH_GITHUB_URL = `${VITE_API_URL}/github/auth/login`;
 
 export const Login = () => {
+  const [searchParams] = useSearchParams();
+  const authError = useMemo(() => searchParams.get('error'), [searchParams]);
+
+  useEffect(() => {
+    if (authError) {
+      toast.error(
+        'There was an error while trying to sign in with GitHub. Please try again.'
+      );
+    }
+  }, [authError]);
+
   return (
     <section className="flex flex-col items-center justify-center h-screen">
       <div className="h-[30%] flex flex-col items-center gap-y-4">

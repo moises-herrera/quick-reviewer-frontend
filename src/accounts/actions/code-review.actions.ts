@@ -10,7 +10,7 @@ export const getCodeReviews = async ({
   ...options
 }: PullRequestReviewFilters) => {
   const { data } = await quickReviewerApi.get<PaginatedResponse<CodeReview>>(
-    `/analytics/accounts/${ownerName}/repositories/${repositoryName}/pull-requests/${pullRequestNumber}/reviews`,
+    `/accounts/${ownerName}/repositories/${repositoryName}/pull-requests/${pullRequestNumber}/reviews`,
     {
       params: {
         ...options,

@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { useAuthStore } from '../auth/store/useAuthStore';
-import PrivateRoutes from './PrivateRoutes';
-import AuthRoutes from './interfaces/AuthRoutes';
 import { Loading } from '@/shared/components/Loading';
 import { Toaster } from 'sonner';
+import { LazyLoadRoute } from './LazyLoadRoute';
 
 export const AppRouter = () => {
   const { pathname } = useLocation();
@@ -13,12 +12,12 @@ export const AppRouter = () => {
   const checkStatus = useAuthStore(({ checkStatus }) => checkStatus);
 
   useEffect(() => {
-    checkStatus().catch(() => {
-      navigate('/auth/login');
-    });
-  }, []);
+    if (status === 'checking') {
+      checkStatus().catch(() => {
+        navigate('/auth/login');
+      });
+    }
 
-  useEffect(() => {
     if (status === 'not-authenticated') {
       navigate('/auth/login');
     }
@@ -34,9 +33,15 @@ export const AppRouter = () => {
     <>
       <Routes>
         {status === 'authenticated' ? (
-          <Route path="/*" element={<PrivateRoutes />} />
+          <Route
+            path="/*"
+            element={LazyLoadRoute(() => import('./PrivateRoutes.tsx'))}
+          />
         ) : (
-          <Route path="/*" element={<AuthRoutes />} />
+          <Route
+            path="/*"
+            element={LazyLoadRoute(() => import('./AuthRoutes.tsx'))}
+          />
         )}
       </Routes>
 

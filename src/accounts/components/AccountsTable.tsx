@@ -22,7 +22,6 @@ export const AccountsTable: FC<AccountsTableProps> = ({ data }) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">ID</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Link</TableHead>
           <TableHead>Repositories</TableHead>
@@ -31,8 +30,7 @@ export const AccountsTable: FC<AccountsTableProps> = ({ data }) => {
       <TableBody>
         {data.map(({ id, name }) => (
           <TableRow key={id}>
-            <TableCell className="font-medium">{id}</TableCell>
-            <TableCell>{name}</TableCell>
+            <TableCell className="font-medium">{name}</TableCell>
             <TableCell>
               <Link
                 target="_blank"
@@ -47,7 +45,7 @@ export const AccountsTable: FC<AccountsTableProps> = ({ data }) => {
             </TableCell>
             <TableCell>
               <Link
-                to={`/accounts/${name}/repositories`}
+                to={`/history/${name}/repositories`}
                 className={cn(
                   buttonVariants({ variant: 'link' }),
                   'text-blue-500 hover:text-blue-700 !pl-0'

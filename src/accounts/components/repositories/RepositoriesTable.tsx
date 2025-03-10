@@ -26,7 +26,6 @@ export const RepositoriesTable: FC<RepositoryTableProps> = ({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">ID</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Link</TableHead>
           <TableHead>Pull requests</TableHead>
@@ -35,8 +34,7 @@ export const RepositoriesTable: FC<RepositoryTableProps> = ({
       <TableBody>
         {data.map(({ id, name }) => (
           <TableRow key={id}>
-            <TableCell className="font-medium">{id}</TableCell>
-            <TableCell>
+            <TableCell className="font-medium">
               {accountName}/{name}
             </TableCell>
             <TableCell>
@@ -53,7 +51,7 @@ export const RepositoriesTable: FC<RepositoryTableProps> = ({
             </TableCell>
             <TableCell>
               <Link
-                to={`/accounts/${accountName}/repositories/${name}/pulls`}
+                to={`/history/${accountName}/repositories/${name}/pulls`}
                 className={cn(
                   buttonVariants({ variant: 'link' }),
                   'text-blue-500 hover:text-blue-700 !pl-0'

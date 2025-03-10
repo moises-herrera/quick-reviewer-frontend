@@ -4,8 +4,18 @@ import { Users } from '../components/Users';
 
 export const Accounts = () => {
   return (
-    <>
-      <h2 className="text-2xl font-semibold mb-4">Accounts</h2>
+    <section className="flex flex-col gap-4">
+      <div>
+        <h2 className="text-2xl font-semibold mb-2">GitHub history</h2>
+        <p>
+          This page displays the history of the GitHub data the application has
+          collected.
+        </p>
+        <p>
+          You can view the data of GitHub accounts with repositories to which
+          you have access. This includes organizations and users.
+        </p>
+      </div>
 
       <Tabs defaultValue="organizations" className="w-full">
         <TabsList>
@@ -20,6 +30,6 @@ export const Accounts = () => {
           <Users />
         </TabsContent>
       </Tabs>
-    </>
+    </section>
   );
 };

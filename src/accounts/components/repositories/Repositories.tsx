@@ -44,7 +44,7 @@ export const Repositories = () => {
     if (error) {
       toast.error('Something went wrong while fetching repositories');
 
-      navigate(`/accounts`);
+      navigate(`/history`);
     }
   }, [error]);
 

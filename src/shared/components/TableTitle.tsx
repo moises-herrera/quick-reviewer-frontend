@@ -24,7 +24,7 @@ export const TableTitle: FC<TableTitleProps> = ({ title }) => {
         <ArrowLeft />
       </Button>
 
-      <h2 className="text-2xl font-semibold truncate">{title}</h2>
+      <h2 className="text-xl font-semibold truncate">{title}</h2>
     </div>
   );
 };

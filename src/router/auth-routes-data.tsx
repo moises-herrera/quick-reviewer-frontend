@@ -1,5 +1,5 @@
-import { Login } from '../../auth/pages/Login';
-import { RouteData } from './route-data';
+import { Login } from '../auth/pages/Login';
+import { RouteData } from './interfaces/route-data';
 
 export const authRoutesData: RouteData[] = [
   {

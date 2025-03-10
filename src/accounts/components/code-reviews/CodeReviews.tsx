@@ -52,7 +52,7 @@ export const CodeReviews = () => {
     if (error) {
       toast.error('Something went wrong while fetching code reviews');
 
-      navigate(`/accounts/${ownerName}/repositories/${repositoryName}/pulls`);
+      navigate(`/history/${ownerName}/repositories/${repositoryName}/pulls`);
     }
   }, [error]);
 

@@ -1,16 +1,22 @@
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { FC, JSX } from 'react';
 import { TableSkeleton } from './TableSkeleton';
 import { Search } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 
 interface TableWrapperProps {
   children?: JSX.Element;
   isLoading: boolean;
   totalPages: number;
-  onSearch: (search: string) => void;
   page: number;
+  onSearch?: (search: string) => void;
   onPageChange: (page: number) => void;
 }
 
@@ -23,20 +29,34 @@ export const TableWrapper: FC<TableWrapperProps> = ({
   onPageChange,
 }) => {
   const handleSearch = (search: string) => {
-    onSearch(search);
+    onSearch && onSearch(search);
     onPageChange(1);
+  };
+
+  const setPreviousPage = () => {
+    if (page > 1) {
+      onPageChange(page - 1);
+    }
+  };
+
+  const setNextPage = () => {
+    if (page < totalPages) {
+      onPageChange(page + 1);
+    }
   };
 
   return (
     <>
-      <section className="mt-4 flex flex-col space-y-4">
-        <Input
-          className="max-w-[40%]"
-          placeholder="Search"
-          onChange={(event) => handleSearch(event.target.value)}
-          disabled={isLoading}
-          startIcon={Search}
-        />
+      <section className="mt-4 flex flex-col space-y-4 border-b border-b-slate-200">
+        {onSearch && (
+          <Input
+            className="max-w-[40%]"
+            placeholder="Search"
+            onChange={(event) => handleSearch(event.target.value)}
+            disabled={isLoading}
+            startIcon={Search}
+          />
+        )}
 
         {isLoading ? (
           <TableSkeleton />
@@ -49,36 +69,37 @@ export const TableWrapper: FC<TableWrapperProps> = ({
         )}
       </section>
 
-      {(isLoading || totalPages > 0) && (
-        <div
-          className={cn(
-            'flex items-center py-4',
-            totalPages === 0 ? 'justify-end' : 'justify-between'
-          )}
-        >
-          {totalPages > 0 && (
-            <p className="text-sm text-muted-foreground">
-              Page {page} of {totalPages}
-            </p>
-          )}
+      {totalPages > 0 && (
+        <Pagination className="mt-4">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                className="cursor-pointer"
+                onClick={setPreviousPage}
+              />
+            </PaginationItem>
 
-          <div className="space-x-2">
-            <Button
-              variant="outline"
-              disabled={page === 1 || isLoading}
-              onClick={() => onPageChange(page - 1)}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              disabled={page === totalPages || totalPages === 0 || isLoading}
-              onClick={() => onPageChange(page + 1)}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  className={`cursor-pointer ${
+                    page === index + 1 ? 'text-primary font-bold' : ''
+                  }`}
+                  onClick={() => onPageChange(index + 1)}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
+            <PaginationItem>
+              <PaginationNext
+                className="cursor-pointer"
+                onClick={setNextPage}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       )}
     </>
   );

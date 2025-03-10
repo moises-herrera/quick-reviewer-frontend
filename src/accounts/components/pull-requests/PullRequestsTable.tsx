@@ -29,9 +29,8 @@ export const PullRequestsTable: FC<PullRequestTableProps> = ({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">ID</TableHead>
-          <TableHead>Number</TableHead>
-          <TableHead>Title</TableHead>
+          <TableHead className="max-w-[100px]">Number</TableHead>
+          <TableHead className="max-w-[200px]">Title</TableHead>
           <TableHead>Author</TableHead>
           <TableHead>Additions</TableHead>
           <TableHead>Deletions</TableHead>
@@ -58,10 +57,13 @@ export const PullRequestsTable: FC<PullRequestTableProps> = ({
             closedAt,
           }) => (
             <TableRow key={id}>
-              <TableCell className="font-medium">{id}</TableCell>
-              <TableCell>#{number}</TableCell>
-              <TableCell className="font-medium">{title}</TableCell>
-              <TableCell>@{author}</TableCell>
+              <TableCell className="font-medium max-w-[100px] truncate">
+                #{number}
+              </TableCell>
+              <TableCell className="font-medium max-w-[250px] truncate">
+                {title}
+              </TableCell>
+              <TableCell className="truncate">@{author}</TableCell>
               <TableCell className="text-green-500">+{additions}</TableCell>
               <TableCell className="text-red-500">-{deletions}</TableCell>
               <TableCell>{changedFiles}</TableCell>
@@ -102,7 +104,7 @@ export const PullRequestsTable: FC<PullRequestTableProps> = ({
               </TableCell>
               <TableCell>
                 <Link
-                  to={`/accounts/${accountName}/repositories/${repositoryName}/pulls/${number}/reviews`}
+                  to={`/history/${accountName}/repositories/${repositoryName}/pulls/${number}/reviews`}
                   className={cn(
                     buttonVariants({ variant: 'link' }),
                     'text-blue-500 hover:text-blue-700 !pl-0'
