@@ -102,14 +102,17 @@ export const DashboardFilters = () => {
     setSelectedStartDate(date?.from?.toISOString() ?? '');
     setSelectedEndDate(date?.to?.toISOString() ?? '');
 
-    setSearchParams((prev) => {
-      prev.set('account', selectedAccountName ?? '');
-      prev.append('repositories', repositories.join(','));
-      prev.append('startDate', date?.from?.toISOString() ?? '');
-      prev.append('endDate', date?.to?.toISOString() ?? '');
+    setSearchParams(
+      (prev) => {
+        prev.set('account', selectedAccountName ?? '');
+        prev.append('repositories', repositories.join(','));
+        prev.append('startDate', date?.from?.toISOString() ?? '');
+        prev.append('endDate', date?.to?.toISOString() ?? '');
 
-      return prev;
-    });
+        return prev;
+      },
+      { replace: true }
+    );
 
     setIsOpenDialog(false);
   };

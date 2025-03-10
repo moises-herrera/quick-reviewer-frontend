@@ -36,11 +36,14 @@ export const AccountDropdown = () => {
     const accountName = searchParams.get('account');
     if (accountName) {
       setSelectedAccountName(accountName ?? null);
-      setSearchParams((prev) => {
-        prev.set('account', accountName ?? '');
+      setSearchParams(
+        (prev) => {
+          prev.set('account', accountName ?? '');
 
-        return prev;
-      });
+          return prev;
+        },
+        { replace: true }
+      );
     } else {
       setSelectedAccountName(null);
     }
@@ -50,12 +53,15 @@ export const AccountDropdown = () => {
     setSelectedAccountName(accountName);
     setSelectedRepositories([]);
 
-    setSearchParams((prev) => {
-      prev.set('account', accountName);
-      prev.delete('repositories');
+    setSearchParams(
+      (prev) => {
+        prev.set('account', accountName);
+        prev.delete('repositories');
 
-      return prev;
-    });
+        return prev;
+      },
+      { replace: true }
+    );
   };
 
   return (
