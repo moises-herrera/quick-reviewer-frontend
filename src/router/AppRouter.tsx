@@ -3,7 +3,8 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { useAuthStore } from '../auth/store/useAuthStore';
 import { Loading } from '@/shared/components/Loading';
 import { Toaster } from 'sonner';
-import { LazyLoadRoute } from './LazyLoadRoute';
+import PrivateRoutes from './PrivateRoutes.tsx';
+import AuthRoutes from './AuthRoutes.tsx';
 
 export const AppRouter = () => {
   const { pathname } = useLocation();
@@ -33,15 +34,9 @@ export const AppRouter = () => {
     <>
       <Routes>
         {status === 'authenticated' ? (
-          <Route
-            path="/*"
-            element={LazyLoadRoute(() => import('./PrivateRoutes.tsx'))}
-          />
+          <Route path="/*" element={<PrivateRoutes />} />
         ) : (
-          <Route
-            path="/*"
-            element={LazyLoadRoute(() => import('./AuthRoutes.tsx'))}
-          />
+          <Route path="/*" element={<AuthRoutes />} />
         )}
       </Routes>
 
