@@ -4,7 +4,7 @@ import { Repositories } from '../components/repositories/Repositories';
 import { Accounts } from '../pages/Accounts';
 import { CodeReviews } from '../components/code-reviews/CodeReviews';
 
-export default function AccountsRoutes() {
+export default function HistoryRoutes() {
   return (
     <section className="w-full">
       <Routes>

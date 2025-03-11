@@ -14,7 +14,7 @@ export const TableTitle: FC<TableTitleProps> = ({ title }) => {
     if (window.history.length > 1) {
       navigate(-1);
     } else {
-      navigate('/accounts');
+      navigate('/history');
     }
   };
 

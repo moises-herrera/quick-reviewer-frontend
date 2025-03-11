@@ -1,4 +1,4 @@
-import { getAllAccounts } from '@/accounts/actions/accounts.actions';
+import { getAllAccounts } from '@/history/actions/accounts.actions';
 import {
   DropdownMenu,
   DropdownMenuTrigger,

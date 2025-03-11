@@ -3,7 +3,7 @@ import { useSearch } from '@/shared/hooks/useSearch';
 import { useQuery } from '@tanstack/react-query';
 import { useState, useMemo, useEffect } from 'react';
 import { CodeReviewsTable } from './CodeReviewsTable';
-import { getCodeReviews } from '@/accounts/actions/code-review.actions';
+import { getCodeReviews } from '@/history/actions/code-review.actions';
 import { TableTitle } from '@/shared/components/TableTitle';
 import { useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
@@ -52,7 +52,7 @@ export const CodeReviews = () => {
     if (error) {
       toast.error('Something went wrong while fetching code reviews');
 
-      navigate(`/history/${ownerName}/repositories/${repositoryName}/pulls`);
+      navigate(`/history/accounts/${ownerName}/repositories/${repositoryName}/pulls`);
     }
   }, [error]);
 

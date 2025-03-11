@@ -7,9 +7,9 @@ export const privateRoutes: RouteData[] = [
     element: LazyLoadRoute(() => import('../dashboard/pages/Dashboard.tsx')),
   },
   {
-    path: '/history/*',
+    path: '/history/accounts/*',
     element: LazyLoadRoute(
-      () => import('../accounts/routes/AccountsRoutes.tsx')
+      () => import('../history/routes/HistoryRoutes.tsx')
     ),
   },
   {

@@ -76,7 +76,7 @@ export const getLatestReviewsData = async (
   filters: MetricFilters,
   options?: PaginationOptions
 ): Promise<PaginatedResponse<ReviewInfo>> => {
-  const { data } = await quickReviewerApi.post('/statistics/reviews', filters, {
+  const { data } = await quickReviewerApi.post('/history/reviews', filters, {
     params: {
       page: options?.page,
       limit: options?.limit,

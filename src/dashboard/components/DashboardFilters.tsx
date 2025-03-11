@@ -12,7 +12,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { MultiSelect } from '@/components/ui/multi-select';
 import { useSearchParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
-import { getRepositories } from '@/accounts/actions/repository.actions';
+import { getRepositories } from '@/history/actions/repository.actions';
 import { DatePickerWithPresets } from '@/shared/components/DatePickerWithPresets';
 import { DateRange } from 'react-day-picker';
 import { useDashboardStore } from '../store/useDashboardStore';

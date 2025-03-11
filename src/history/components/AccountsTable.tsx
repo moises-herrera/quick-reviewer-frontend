@@ -45,7 +45,7 @@ export const AccountsTable: FC<AccountsTableProps> = ({ data }) => {
             </TableCell>
             <TableCell>
               <Link
-                to={`/history/${name}/repositories`}
+                to={`/history/accounts/${name}/repositories`}
                 className={cn(
                   buttonVariants({ variant: 'link' }),
                   'text-blue-500 hover:text-blue-700 !pl-0'

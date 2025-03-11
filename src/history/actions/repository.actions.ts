@@ -8,7 +8,7 @@ export const getRepositories = async ({
   ...options
 }: RepositoryFilters) => {
   const { data } = await quickReviewerApi.get<PaginatedResponse<Repository>>(
-    `/accounts/${ownerId}/repositories`,
+    `/history/accounts/${ownerId}/repositories`,
     {
       params: options,
     }

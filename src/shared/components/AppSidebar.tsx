@@ -20,7 +20,7 @@ const items = [
   },
   {
     title: 'GitHub history',
-    url: '/history',
+    url: '/history/accounts',
     icon: () => <Github fill="#000" className="!size-5" />,
   },
   {

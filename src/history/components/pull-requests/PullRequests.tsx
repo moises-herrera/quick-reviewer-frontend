@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { PullRequestsTable } from './PullRequestsTable';
-import { getPullRequests } from '@/accounts/actions/pull-requests.actions';
+import { getPullRequests } from '@/history/actions/pull-requests.actions';
 import { TableTitle } from '@/shared/components/TableTitle';
 import { toast } from 'sonner';
 
@@ -46,7 +46,7 @@ export const PullRequests = () => {
     if (error) {
       toast.error('Something went wrong while fetching pull requests');
 
-      navigate(`/history/${ownerName}/repositories`);
+      navigate(`/history/accounts/${ownerName}/repositories`);
     }
   }, [error]);
 

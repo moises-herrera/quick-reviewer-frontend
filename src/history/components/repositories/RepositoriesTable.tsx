@@ -51,7 +51,7 @@ export const RepositoriesTable: FC<RepositoryTableProps> = ({
             </TableCell>
             <TableCell>
               <Link
-                to={`/history/${accountName}/repositories/${name}/pulls`}
+                to={`/history/accounts/${accountName}/repositories/${name}/pulls`}
                 className={cn(
                   buttonVariants({ variant: 'link' }),
                   'text-blue-500 hover:text-blue-700 !pl-0'

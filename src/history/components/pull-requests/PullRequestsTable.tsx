@@ -11,7 +11,7 @@ import { GITHUB_URL } from '@/constants/app-constants';
 import { Link } from 'react-router';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { PullRequest } from '@/accounts/interfaces/pull-request';
+import { PullRequest } from '@/history/interfaces/pull-request';
 import clsx from 'clsx';
 
 interface PullRequestTableProps {
@@ -104,7 +104,7 @@ export const PullRequestsTable: FC<PullRequestTableProps> = ({
               </TableCell>
               <TableCell>
                 <Link
-                  to={`/history/${accountName}/repositories/${repositoryName}/pulls/${number}/reviews`}
+                  to={`/history/accounts/${accountName}/repositories/${repositoryName}/pulls/${number}/reviews`}
                   className={cn(
                     buttonVariants({ variant: 'link' }),
                     'text-blue-500 hover:text-blue-700 !pl-0'

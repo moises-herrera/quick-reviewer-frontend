@@ -7,7 +7,7 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { FC } from 'react';
-import { CodeReview } from '@/accounts/interfaces/code-review';
+import { CodeReview } from '@/history/interfaces/code-review';
 import clsx from 'clsx';
 
 interface CodeReviewsTableProps {

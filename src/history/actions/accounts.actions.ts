@@ -5,7 +5,7 @@ import { PaginationOptions } from '@/shared/interfaces/pagination-options';
 
 export const getAllAccounts = async (options: PaginationOptions) => {
   const { data } = await quickReviewerApi.get<PaginatedResponse<Account>>(
-    '/accounts',
+    '/history/accounts',
     { params: options }
   );
   return data;
@@ -13,7 +13,7 @@ export const getAllAccounts = async (options: PaginationOptions) => {
 
 export const getOrganizations = async (options: PaginationOptions) => {
   const { data } = await quickReviewerApi.get<PaginatedResponse<Account>>(
-    '/accounts/organizations',
+    '/history/accounts/organizations',
     { params: options }
   );
   return data;
@@ -21,7 +21,7 @@ export const getOrganizations = async (options: PaginationOptions) => {
 
 export const getUsers = async (options: PaginationOptions) => {
   const { data } = await quickReviewerApi.get<PaginatedResponse<Account>>(
-    '/accounts/users',
+    '/history/accounts/users',
     { params: options }
   );
   return data;
