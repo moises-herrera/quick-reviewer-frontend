@@ -11,7 +11,7 @@ interface DashboardState {
   setSelectedEndDate: (endDate: string | null) => void;
 }
 
-export const useDashboardStore = create<DashboardState>()((set, get) => ({
+export const useDashboardStore = create<DashboardState>()((set) => ({
   selectedAccountName: null,
   selectedRepositories: [],
   selectedStartDate: null,
