@@ -10,6 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import noDataImage from '@/assets/no-data.svg';
 
 interface TableWrapperProps {
   children?: JSX.Element;
@@ -63,7 +64,12 @@ export const TableWrapper: FC<TableWrapperProps> = ({
         ) : totalPages > 0 ? (
           children
         ) : (
-          <div className="flex h-[300px] w-full items-center justify-center rounded-md border-2 border-muted">
+          <div className="flex flex-col max-w-full items-center justify-center rounded-md border-2 border-muted p-8 gap-y-6">
+            <img
+              src={noDataImage}
+              alt="No data"
+              className="w-[300px]"
+            />
             <p className="text-muted-foreground">No data found</p>
           </div>
         )}

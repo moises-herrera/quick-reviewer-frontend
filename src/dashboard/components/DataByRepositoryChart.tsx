@@ -12,6 +12,7 @@ import { ChartData } from '../interfaces/chart-data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartCardSkeleton } from './ChartCardSkeleton';
 import { Button } from '@/components/ui/button';
+import chartImage from '@/assets/chart.svg';
 
 interface DataByRepositoryChartProps {
   data?: ChartData;
@@ -66,24 +67,35 @@ export const DataByRepositoryChart: FC<DataByRepositoryChartProps> = ({
       </CardHeader>
 
       <CardContent>
-        <ChartContainer config={{}} className="min-h-[200px] w-full">
-          <BarChart accessibilityLayer data={chartData}>
-            <ChartTooltip content={<ChartTooltipContent hideIndicator />} />
-            <ChartLegend content={<ChartLegendContent />} />
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="label"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
+        {chartData.length > 0 ? (
+          <ChartContainer config={{}} className="min-h-[200px] w-full">
+            <BarChart accessibilityLayer data={chartData}>
+              <ChartTooltip content={<ChartTooltipContent hideIndicator />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="label"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+              />
+              <Bar dataKey="value" radius={4}>
+                {mappedData.map(({ color }, index) => (
+                  <Cell key={`cell-${index}`} fill={color} stroke={color} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        ) : (
+          <div className="flex flex-col min-h-[400px] max-w-full items-center justify-center gap-y-6">
+            <img
+              src={chartImage}
+              alt="No data"
+              className="min-w-[30%] w-[300px]"
             />
-            <Bar dataKey="value" radius={4}>
-              {mappedData.map(({ color }, index) => (
-                <Cell key={`cell-${index}`} fill={color} stroke={color} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ChartContainer>
+            <p className="text-muted-foreground">No data available</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
