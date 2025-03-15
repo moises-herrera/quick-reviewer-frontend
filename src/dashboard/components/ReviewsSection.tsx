@@ -18,7 +18,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useFilters } from '../hooks/useFilters';
 
-const LIMIT = 20;
+const LIMIT = 10;
 
 export const ReviewsSection = () => {
   const { filters } = useFilters();

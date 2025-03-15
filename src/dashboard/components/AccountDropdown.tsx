@@ -78,7 +78,7 @@ export const AccountDropdown = () => {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-[320px] h-[300px] overflow-y-auto"
+          className="w-[320px] h-fit max-h-[300px] overflow-y-auto"
           align="start"
         >
           <DropdownMenuRadioGroup
