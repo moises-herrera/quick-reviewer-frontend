@@ -23,7 +23,7 @@ const LIMIT = 10;
 export const ReviewsSection = () => {
   const { filters } = useFilters();
   const [page, setPage] = useState<number>(1);
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: [
       'getReviews',
       {
@@ -47,6 +47,8 @@ export const ReviewsSection = () => {
       <CardContent>
         <TableWrapper
           isLoading={isLoading}
+          isError={isError}
+          refetch={refetch}
           totalPages={data?.totalPages ?? 0}
           onPageChange={setPage}
           page={page}

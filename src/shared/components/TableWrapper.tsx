@@ -11,12 +11,15 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import noDataImage from '@/assets/no-data.svg';
+import { Button } from '@/components/ui/button';
 
 interface TableWrapperProps {
   children?: JSX.Element;
   isLoading: boolean;
   totalPages: number;
   page: number;
+  isError?: boolean;
+  refetch?: () => void;
   onSearch?: (search: string) => void;
   onPageChange: (page: number) => void;
 }
@@ -24,9 +27,11 @@ interface TableWrapperProps {
 export const TableWrapper: FC<TableWrapperProps> = ({
   children,
   isLoading,
-  totalPages,
-  onSearch,
+  isError,
   page = 1,
+  totalPages,
+  refetch,
+  onSearch,
   onPageChange,
 }) => {
   const handleSearch = (search: string) => {
@@ -45,6 +50,18 @@ export const TableWrapper: FC<TableWrapperProps> = ({
       onPageChange(page + 1);
     }
   };
+
+  if (isError) {
+    return (
+      <div className="flex flex-col max-w-full items-center justify-center rounded-md border-2 border-muted p-8 gap-y-6">
+        <img src={noDataImage} alt="No data" className="w-[300px]" />
+        <p className="text-muted-foreground">Error loading data</p>
+        <Button variant="outline" onClick={refetch} className="w-[100px]">
+          Retry
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -65,11 +82,7 @@ export const TableWrapper: FC<TableWrapperProps> = ({
           children
         ) : (
           <div className="flex flex-col max-w-full items-center justify-center rounded-md border-2 border-muted p-8 gap-y-6">
-            <img
-              src={noDataImage}
-              alt="No data"
-              className="w-[300px]"
-            />
+            <img src={noDataImage} alt="No data" className="w-[300px]" />
             <p className="text-muted-foreground">No data found</p>
           </div>
         )}

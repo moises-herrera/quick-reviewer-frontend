@@ -8,7 +8,7 @@ import { AccountsTable } from './AccountsTable';
 export const Users = () => {
   const { debouncedSearchTerm, onSearch } = useSearch({ value: '' });
   const [page, setPage] = useState<number>(1);
-  const { data, isLoading, isRefetching } = useQuery({
+  const { data, isLoading, isRefetching, isError, refetch } = useQuery({
     queryKey: [
       'users',
       {
@@ -32,16 +32,16 @@ export const Users = () => {
   }, [data]);
 
   return (
-    <>
-      <TableWrapper
-        isLoading={isLoading || isRefetching}
-        totalPages={totalPages}
-        onSearch={onSearch}
-        page={page}
-        onPageChange={setPage}
-      >
-        <AccountsTable data={data?.data || []} />
-      </TableWrapper>
-    </>
+    <TableWrapper
+      isLoading={isLoading || isRefetching}
+      totalPages={totalPages}
+      page={page}
+      isError={isError}
+      refetch={refetch}
+      onSearch={onSearch}
+      onPageChange={setPage}
+    >
+      <AccountsTable data={data?.data || []} />
+    </TableWrapper>
   );
 };
