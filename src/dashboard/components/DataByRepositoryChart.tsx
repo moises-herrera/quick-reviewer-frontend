@@ -40,10 +40,6 @@ export const DataByRepositoryChart: FC<DataByRepositoryChartProps> = ({
     [chartData]
   );
 
-  if (!data || isLoading) {
-    return <ChartCardSkeleton />;
-  }
-
   if (isError) {
     return (
       <Card>
@@ -58,6 +54,10 @@ export const DataByRepositoryChart: FC<DataByRepositoryChartProps> = ({
         </CardContent>
       </Card>
     );
+  }
+
+  if (!data || isLoading) {
+    return <ChartCardSkeleton />;
   }
 
   return (
