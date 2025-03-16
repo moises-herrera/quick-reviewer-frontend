@@ -13,7 +13,7 @@ const PrivateRoutes = () => {
         <div className="w-full h-full flex relative">
           <AppSidebar />
 
-          <main className="w-full h-full p-4">
+          <main className="w-full min-h-screen p-4">
             <Routes>
               {privateRoutes.map(({ path, element }) => (
                 <Route key={path} path={path} element={element} />
