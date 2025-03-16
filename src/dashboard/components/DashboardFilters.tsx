@@ -19,29 +19,13 @@ import { useDashboardStore } from '../store/useDashboardStore';
 
 export const DashboardFilters = () => {
   const {
-    setSelectedRepositories,
-    setSelectedStartDate,
-    setSelectedEndDate,
-    selectedAccountName: accountNameStored,
+    selectedAccountName,
+    selectedRepositories,
+    selectedStartDate,
+    selectedEndDate,
   } = useDashboardStore();
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const selectedAccountName = useMemo(
-    () => searchParams.get('account') ?? accountNameStored,
-    [searchParams, accountNameStored]
-  );
-  const selectedRepositories = useMemo(
-    () => searchParams.get('repositories')?.split(',') ?? [],
-    [searchParams]
-  );
-  const selectedStartDate = useMemo(
-    () => searchParams.get('startDate'),
-    [searchParams]
-  );
-  const selectedEndDate = useMemo(
-    () => searchParams.get('endDate'),
-    [searchParams]
-  );
+  const [_, setSearchParams] = useSearchParams();
   const [repositories, setRepositories] = useState<string[]>([]);
   const [date, setDate] = useState<DateRange | undefined>({
     from: selectedStartDate
@@ -98,16 +82,12 @@ export const DashboardFilters = () => {
   };
 
   const onSaveFilters = () => {
-    setSelectedRepositories(repositories);
-    setSelectedStartDate(date?.from?.toISOString() ?? '');
-    setSelectedEndDate(date?.to?.toISOString() ?? '');
-
     setSearchParams(
       (prev) => {
         prev.set('account', selectedAccountName ?? '');
-        prev.append('repositories', repositories.join(','));
-        prev.append('startDate', date?.from?.toISOString() ?? '');
-        prev.append('endDate', date?.to?.toISOString() ?? '');
+        prev.set('repositories', repositories.join('_'));
+        prev.set('startDate', date?.from?.toISOString() ?? '');
+        prev.set('endDate', date?.to?.toISOString() ?? '');
 
         return prev;
       },

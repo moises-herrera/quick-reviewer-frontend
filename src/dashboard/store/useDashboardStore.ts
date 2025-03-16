@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface DashboardState {
   selectedAccountName: string | null;
@@ -11,15 +12,23 @@ interface DashboardState {
   setSelectedEndDate: (endDate: string | null) => void;
 }
 
-export const useDashboardStore = create<DashboardState>()((set) => ({
-  selectedAccountName: null,
-  selectedRepositories: [],
-  selectedStartDate: null,
-  selectedEndDate: null,
-  setSelectedAccountName: (accountName) =>
-    set({ selectedAccountName: accountName }),
-  setSelectedRepositories: (repositories) =>
-    set({ selectedRepositories: repositories }),
-  setSelectedStartDate: (startDate) => set({ selectedStartDate: startDate }),
-  setSelectedEndDate: (endDate) => set({ selectedEndDate: endDate }),
-}));
+export const useDashboardStore = create<DashboardState>()(
+  persist(
+    (set) => ({
+      selectedAccountName: null,
+      selectedRepositories: [],
+      selectedStartDate: null,
+      selectedEndDate: null,
+      setSelectedAccountName: (accountName) =>
+        set({ selectedAccountName: accountName }),
+      setSelectedRepositories: (repositories) =>
+        set({ selectedRepositories: repositories }),
+      setSelectedStartDate: (startDate) =>
+        set({ selectedStartDate: startDate }),
+      setSelectedEndDate: (endDate) => set({ selectedEndDate: endDate }),
+    }),
+    {
+      name: 'dashboard-storage',
+    }
+  )
+);

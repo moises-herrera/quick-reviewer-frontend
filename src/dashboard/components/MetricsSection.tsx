@@ -1,9 +1,13 @@
-import { useFilters } from '../hooks/useFilters';
+import { FC } from 'react';
 import { useGetMetrics } from '../hooks/useGetMetrics';
+import { MetricFilters } from '../interfaces/metric-filters';
 import { MetricCard } from './MetricCard';
 
-export const MetricsSection = () => {
-  const { filters } = useFilters();
+interface MetricSectionProps {
+  filters: MetricFilters;
+}
+
+export const MetricsSection: FC<MetricSectionProps> = ({ filters }) => {
   const {
     averageCreationCountQuery,
     averageCompletionTimeQuery,

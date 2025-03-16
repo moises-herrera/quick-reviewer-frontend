@@ -4,10 +4,14 @@ import {
   getReviewCountByRepository,
 } from '../actions/dashboard.actions';
 import { DataByRepositoryChart } from './DataByRepositoryChart';
-import { useFilters } from '../hooks/useFilters';
+import { MetricFilters } from '../interfaces/metric-filters';
+import { FC } from 'react';
 
-export const ChartsSection = () => {
-  const { filters } = useFilters();
+interface ChartsSectionProps {
+  filters: MetricFilters;
+}
+
+export const ChartsSection: FC<ChartsSectionProps> = ({ filters }) => {
   const pullRequestsByRepositoryQuery = useQuery({
     queryKey: ['getPullRequestCountByRepository', filters],
     queryFn: () => getPullRequestCountByRepository(filters),

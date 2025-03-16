@@ -1,29 +1,102 @@
-import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 import { MetricFilters } from '../interfaces/metric-filters';
 import { useDashboardStore } from '../store/useDashboardStore';
+import { useEffect } from 'react';
 
 export const useFilters = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
-    selectedRepositories: repositoriesStored,
-    selectedStartDate: startDateStored,
-    selectedEndDate: endDateStored,
+    selectedAccountName,
+    selectedRepositories,
+    selectedStartDate,
+    selectedEndDate,
+    setSelectedAccountName,
+    setSelectedRepositories,
+    setSelectedStartDate,
+    setSelectedEndDate,
   } = useDashboardStore();
-  const filters = useMemo<MetricFilters>(() => {
-    const repositories =
-      searchParams.get('repositories')?.split(',') ?? repositoriesStored;
-    const startDate = searchParams.get('startDate') ?? startDateStored ?? '';
-    const endDate = searchParams.get('endDate') ?? endDateStored ?? '';
 
-    return {
-      repositories: repositories.map((id) => Number(id)),
-      startDate,
-      endDate,
-    };
-  }, [searchParams, repositoriesStored, startDateStored, endDateStored]);
+  useEffect(() => {
+    const accountName = searchParams.get('account');
+    const repositories = searchParams.get('repositories');
+    const startDate = searchParams.get('startDate');
+    const endDate = searchParams.get('endDate');
+
+    if (accountName && accountName !== selectedAccountName) {
+      setSelectedAccountName(accountName ?? null);
+    }
+
+    if (repositories && repositories !== selectedRepositories.join('_')) {
+      setSelectedRepositories(repositories?.split('_') ?? []);
+    }
+
+    if (startDate && startDate !== selectedStartDate) {
+      setSelectedStartDate(startDate ?? null);
+    }
+
+    if (endDate && endDate !== selectedEndDate) {
+      setSelectedEndDate(endDate ?? null);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    const accountName = searchParams.get('account');
+    const repositories = searchParams.get('repositories');
+    const startDate = searchParams.get('startDate');
+    const endDate = searchParams.get('endDate');
+
+    if (
+      accountName !== selectedAccountName ||
+      repositories !== selectedRepositories.join('_') ||
+      startDate !== selectedStartDate ||
+      endDate !== selectedEndDate
+    ) {
+      setSearchParams(
+        (prev) => {
+          if (selectedAccountName) {
+            prev.set('account', selectedAccountName);
+          } else {
+            prev.delete('account');
+          }
+
+          if (selectedRepositories.length) {
+            prev.set('repositories', selectedRepositories.join('_'));
+          } else {
+            prev.delete('repositories');
+          }
+
+          if (selectedStartDate) {
+            prev.set('startDate', selectedStartDate);
+          } else {
+            prev.delete('startDate');
+          }
+
+          if (selectedEndDate) {
+            prev.set('endDate', selectedEndDate);
+          } else {
+            prev.delete('endDate');
+          }
+
+          return prev;
+        },
+        {
+          replace: true,
+        }
+      );
+    }
+  }, [
+    selectedAccountName,
+    selectedRepositories,
+    selectedStartDate,
+    selectedEndDate,
+  ]);
 
   return {
-    filters,
+    filters: <MetricFilters>{
+      accountName: selectedAccountName ?? '',
+      repositories: selectedRepositories.map((id) => Number(id)) ?? [],
+      startDate: selectedStartDate,
+      endDate: selectedEndDate,
+    },
   };
 };

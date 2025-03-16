@@ -14,14 +14,17 @@ import { Link } from 'react-router';
 import { GITHUB_URL } from '@/constants/app-constants';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { useFilters } from '../hooks/useFilters';
+import { MetricFilters } from '../interfaces/metric-filters';
 
 const LIMIT = 10;
 
-export const ReviewsSection = () => {
-  const { filters } = useFilters();
+interface ReviewsSectionProps {
+  filters: MetricFilters;
+}
+
+export const ReviewsSection: FC<ReviewsSectionProps> = ({ filters }) => {
   const [page, setPage] = useState<number>(1);
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: [
