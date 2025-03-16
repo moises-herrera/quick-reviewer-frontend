@@ -10,6 +10,7 @@ interface DashboardState {
   setSelectedRepositories: (repositories: string[]) => void;
   setSelectedStartDate: (startDate: string | null) => void;
   setSelectedEndDate: (endDate: string | null) => void;
+  clearFilters: () => void;
 }
 
 export const useDashboardStore = create<DashboardState>()(
@@ -26,6 +27,13 @@ export const useDashboardStore = create<DashboardState>()(
       setSelectedStartDate: (startDate) =>
         set({ selectedStartDate: startDate }),
       setSelectedEndDate: (endDate) => set({ selectedEndDate: endDate }),
+      clearFilters: () =>
+        set({
+          selectedAccountName: null,
+          selectedRepositories: [],
+          selectedStartDate: null,
+          selectedEndDate: null,
+        }),
     }),
     {
       name: 'dashboard-storage',

@@ -11,6 +11,7 @@ import {
 import { NavLink, useLocation } from 'react-router';
 import { useAuthStore } from '@/auth/store/useAuthStore';
 import Github from '../icons/Github';
+import { useDashboardStore } from '@/dashboard/store/useDashboardStore';
 
 const items = [
   {
@@ -32,7 +33,13 @@ const items = [
 
 export const AppSidebar = () => {
   const { pathname } = useLocation();
+  const clearFilters = useDashboardStore(({ clearFilters }) => clearFilters);
   const logout = useAuthStore(({ logout }) => logout);
+
+  const onLogout = () => {
+    clearFilters();
+    logout();
+  };
 
   return (
     <Sidebar className="!absolute h-full">
@@ -58,7 +65,7 @@ export const AppSidebar = () => {
                 <SidebarMenuButton asChild>
                   <NavLink to="/auth/login">
                     <button
-                      onClick={logout}
+                      onClick={onLogout}
                       className="flex items-center gap-2 cursor-pointer"
                     >
                       <LogOut className="!size-5" />
