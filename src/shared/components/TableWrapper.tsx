@@ -55,7 +55,7 @@ export const TableWrapper: FC<TableWrapperProps> = ({
     return (
       <div className="flex flex-col max-w-full items-center justify-center rounded-md border-2 border-muted p-8 gap-y-6">
         <img src={noDataImage} alt="No data" className="w-[300px]" />
-        <p className="text-muted-foreground">Error loading data</p>
+        <p className="text-red-500">Error loading data</p>
         <Button variant="outline" onClick={refetch} className="w-[100px]">
           Retry
         </Button>
