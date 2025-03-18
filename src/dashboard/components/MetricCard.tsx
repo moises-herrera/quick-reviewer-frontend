@@ -43,7 +43,7 @@ export const MetricCard: FC<MetricCardProps> = ({
         </>
       ) : (
         <>
-          <h3 className="text-red-500 font-semibold text-2xl">
+          <h3 className="text-red-500 font-semibold text-base">
             Error fetching data
           </h3>
 

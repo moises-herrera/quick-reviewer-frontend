@@ -1,6 +1,6 @@
 export interface CodeReview {
-  id: bigint;
-  pullRequestId: bigint;
+  id: string;
+  pullRequestId: string;
   createdAt: Date;
   reviewer: string;
   status: string;

@@ -13,9 +13,17 @@ import { MultiSelect } from '@/components/ui/multi-select';
 import { useSearchParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { getRepositories } from '@/history/actions/repository.actions';
-import { DatePickerWithPresets } from '@/shared/components/DatePickerWithPresets';
+import { DatePicker } from '@/shared/components/DatePickerWithPresets';
 import { DateRange } from 'react-day-picker';
 import { useDashboardStore } from '../store/useDashboardStore';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { addDays } from 'date-fns';
 
 export const DashboardFilters = () => {
   const {
@@ -23,10 +31,15 @@ export const DashboardFilters = () => {
     selectedRepositories,
     selectedStartDate,
     selectedEndDate,
+    setSelectedRepositories,
+    setSelectedStartDate,
+    setSelectedEndDate,
   } = useDashboardStore();
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false);
   const [_, setSearchParams] = useSearchParams();
   const [repositories, setRepositories] = useState<string[]>([]);
+  const [isDateRangeVisible, setIsDateRangeVisible] = useState<boolean>(false);
+  const [presetDate, setPresetDate] = useState<string>('');
   const [date, setDate] = useState<DateRange | undefined>({
     from: selectedStartDate
       ? new Date(selectedStartDate)
@@ -42,6 +55,7 @@ export const DashboardFilters = () => {
         page: 1,
         limit: 100,
       }),
+    refetchOnWindowFocus: false,
   });
 
   const repositoriesOptions = useMemo(() => {
@@ -56,29 +70,102 @@ export const DashboardFilters = () => {
   }, [data]);
 
   useEffect(() => {
-    if (selectedRepositories) {
-      setRepositories(selectedRepositories);
-    } else {
-      setRepositories([]);
+    setRepositories(selectedRepositories);
+  }, [isOpenDialog]);
+
+  useEffect(() => {
+    if (repositoriesOptions.length && !selectedRepositories.length) {
+      setSelectedRepositories(
+        repositoriesOptions.slice(0, 5).map(({ value }) => value)
+      );
+      setSelectedStartDate(addDays(new Date(), -30).toISOString());
+      setSelectedEndDate(new Date().toISOString());
     }
-  }, [selectedRepositories]);
+  }, [selectedAccountName, repositoriesOptions, selectedRepositories]);
 
   useEffect(() => {
     if (selectedStartDate && selectedEndDate) {
+      const fromDate = new Date(selectedStartDate);
+      const toDate = new Date(selectedEndDate);
+
       setDate({
-        from: new Date(selectedStartDate),
-        to: new Date(selectedEndDate),
+        from: fromDate,
+        to: toDate,
       });
-    } else {
-      setDate({
-        from: undefined,
-        to: undefined,
-      });
+
+      const today = new Date();
+
+      if (fromDate === addDays(today, -7)) {
+        setPresetDate('week');
+      } else if (fromDate === addDays(today, -30)) {
+        setPresetDate('month');
+      } else if (fromDate === addDays(today, -90)) {
+        setPresetDate('3-months');
+      } else if (fromDate === addDays(today, -180)) {
+        setPresetDate('6-months');
+      } else if (fromDate === addDays(today, -365)) {
+        setPresetDate('year');
+      } else {
+        setPresetDate('custom');
+        setIsDateRangeVisible(true);
+      }
     }
   }, [selectedStartDate, selectedEndDate]);
 
   const handleRepositoriesChange = (value: string[]) => {
     setRepositories(value);
+  };
+
+  const onSelectPresetDate = (option: string) => {
+    setPresetDate(option);
+
+    if (option === 'custom') {
+      setIsDateRangeVisible(true);
+      return;
+    }
+
+    setIsDateRangeVisible(false);
+
+    const today = new Date();
+    let fromDate: Date | undefined;
+
+    switch (option) {
+      case 'week':
+        fromDate = addDays(today, -7);
+        break;
+      case 'month':
+        fromDate = addDays(today, -30);
+        break;
+      case '3-months':
+        fromDate = addDays(today, -90);
+        break;
+      case '6-months':
+        fromDate = addDays(today, -180);
+        break;
+      case 'year':
+        fromDate = addDays(today, -365);
+        break;
+      default:
+        break;
+    }
+
+    if (fromDate) {
+      setDate({ from: fromDate, to: today });
+    }
+  };
+
+  const onSelectStartDate = (from: Date | undefined) => {
+    setDate((prev) => ({
+      from,
+      to: prev?.to,
+    }));
+  };
+
+  const onSelectEndDate = (to: Date | undefined) => {
+    setDate((prev) => ({
+      from: prev?.from,
+      to,
+    }));
   };
 
   const onSaveFilters = () => {
@@ -106,7 +193,7 @@ export const DashboardFilters = () => {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className="mb-4">
           <DialogTitle>Dashboard filters</DialogTitle>
           <DialogDescription>
             This filters will be applied to all the metrics and charts in the
@@ -114,7 +201,7 @@ export const DashboardFilters = () => {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-y-2">
+        <div className="flex flex-col gap-y-2 mb-4">
           <p className="text-sm font-semibold">Repositories</p>
           <MultiSelect
             disabled={!data?.data.length}
@@ -124,16 +211,61 @@ export const DashboardFilters = () => {
             placeholder="Select repositories"
             variant="secondary"
             maxCount={3}
+            animation={0}
           />
+          {repositoriesOptions.length && !repositories.length && (
+            <p className="text-sm text-red-500 mt-1">
+              Please select at least one repository.
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col gap-y-2">
           <p className="text-sm font-semibold">Pull request creation date</p>
-          <DatePickerWithPresets date={date} setDate={setDate} />
+
+          <Select value={presetDate} onValueChange={onSelectPresetDate}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select a preset date" />
+            </SelectTrigger>
+            <SelectContent position="popper">
+              <SelectItem value="week">Since last week</SelectItem>
+              <SelectItem value="month">Since a month ago</SelectItem>
+              <SelectItem value="3-months">Since 3 months ago</SelectItem>
+              <SelectItem value="6-months">Since 6 months ago</SelectItem>
+              <SelectItem value="year">Since last year</SelectItem>
+              <SelectItem value="custom">Custom</SelectItem>
+            </SelectContent>
+          </Select>
+
+          {isDateRangeVisible && (
+            <section className="flex flex-col gap-y-4 mt-2">
+              <div className="flex flex-col gap-y-2">
+                <p className="text-sm font-semibold">Select a start date</p>
+                <DatePicker
+                  date={date?.from}
+                  setDate={(from) => onSelectStartDate(from)}
+                />
+              </div>
+
+              <div className="flex flex-col gap-y-2">
+                <p className="text-sm font-semibold">Select an end date</p>
+                <DatePicker
+                  date={date?.to}
+                  setDate={(to) => onSelectEndDate(to)}
+                  fromDate={date?.from}
+                  disabled={!date?.from}
+                />
+              </div>
+            </section>
+          )}
         </div>
 
         <div className="flex justify-end mt-4">
-          <Button variant="outline" onClick={onSaveFilters}>
+          <Button
+            variant="outline"
+            onClick={onSaveFilters}
+            disabled={!repositories.length || !date?.from || !date?.to}
+          >
             Save
           </Button>
         </div>

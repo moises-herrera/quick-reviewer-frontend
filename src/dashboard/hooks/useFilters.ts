@@ -26,15 +26,15 @@ export const useFilters = () => {
       setSelectedAccountName(accountName ?? null);
     }
 
-    if (repositories && repositories !== selectedRepositories.join('_')) {
+    if (repositories !== selectedRepositories.join('_')) {
       setSelectedRepositories(repositories?.split('_') ?? []);
     }
 
-    if (startDate && startDate !== selectedStartDate) {
+    if (startDate !== selectedStartDate) {
       setSelectedStartDate(startDate ?? null);
     }
 
-    if (endDate && endDate !== selectedEndDate) {
+    if (endDate !== selectedEndDate) {
       setSelectedEndDate(endDate ?? null);
     }
   }, [searchParams]);
@@ -94,7 +94,7 @@ export const useFilters = () => {
   return {
     filters: <MetricFilters>{
       accountName: selectedAccountName ?? '',
-      repositories: selectedRepositories.map((id) => Number(id)) ?? [],
+      repositories: selectedRepositories,
       startDate: selectedStartDate,
       endDate: selectedEndDate,
     },

@@ -1,7 +1,7 @@
 export interface PullRequest {
-  id: bigint;
+  id: string;
   number: number;
-  repositoryId: bigint;
+  repositoryId: string;
   title: string;
   state: string;
   url: string;

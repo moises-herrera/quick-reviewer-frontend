@@ -1,5 +1,5 @@
 export interface Account {
-  id: bigint;
+  id: string;
   type: 'User' | 'Organization';
   name: string;
   createdAt: Date;

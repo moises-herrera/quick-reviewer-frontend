@@ -1,7 +1,7 @@
 export interface Repository {
-  id: bigint;
+  id: string;
   name: string;
   createdAt: Date;
   updatedAt: Date;
-  ownerId: bigint;
+  ownerId: string;
 }

@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ChevronDown } from 'lucide-react';
 import { useSearchParams } from 'react-router';
 import { useDashboardStore } from '../store/useDashboardStore';
+import { useEffect } from 'react';
 
 export const AccountDropdown = () => {
   const selectedAccountName = useDashboardStore(
@@ -26,16 +27,33 @@ export const AccountDropdown = () => {
   });
 
   const handleAccountChange = (accountName: string) => {
-    setSearchParams(
-      (prev) => {
-        prev.set('account', accountName);
+    if (accountName !== selectedAccountName) {
+      setSearchParams(
+        (prev) => {
+          prev.set('account', accountName);
+          prev.delete('repositories');
+          prev.delete('startDate');
+          prev.delete('endDate');
+
+          return prev;
+        },
+        { replace: true }
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (data?.data.length && !selectedAccountName) {
+      setSearchParams((prev) => {
+        prev.set('account', data.data[0].name);
         prev.delete('repositories');
+        prev.delete('startDate');
+        prev.delete('endDate');
 
         return prev;
-      },
-      { replace: true }
-    );
-  };
+      });
+    }
+  }, [data]);
 
   return (
     <div>
