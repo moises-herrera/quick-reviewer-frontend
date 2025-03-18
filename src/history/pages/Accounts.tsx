@@ -6,7 +6,7 @@ import { APP_NAME } from '@/constants/app';
 
 export const Accounts = () => {
   useEffect(() => {
-    document.title = `${APP_NAME} GitHub History`;
+    document.title = `${APP_NAME} - GitHub History`;
   }, []);
 
   return (
