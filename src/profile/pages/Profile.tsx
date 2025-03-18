@@ -1,12 +1,18 @@
 import { useAuthStore } from '@/auth/store/useAuthStore';
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { APP_NAME } from '@/constants/app';
 import { GITHUB_URL } from '@/constants/app-constants';
 import { cn } from '@/lib/utils';
+import { useEffect } from 'react';
 import { Link } from 'react-router';
 
 const Profile = () => {
   const user = useAuthStore(({ user }) => user);
+
+  useEffect(() => {
+    document.title = `${APP_NAME} - Profile`;
+  }, []);
 
   return (
     <section className="flex flex-col gap-3">

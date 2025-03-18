@@ -1,8 +1,14 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Organizations } from '../components/Organizations';
 import { Users } from '../components/Users';
+import { useEffect } from 'react';
+import { APP_NAME } from '@/constants/app';
 
 export const Accounts = () => {
+  useEffect(() => {
+    document.title = `${APP_NAME} GitHub History`;
+  }, []);
+
   return (
     <section className="flex flex-col gap-4">
       <div>
