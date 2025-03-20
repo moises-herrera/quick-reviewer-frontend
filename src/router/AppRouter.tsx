@@ -3,8 +3,8 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { useAuthStore } from '../auth/store/useAuthStore';
 import { Loading } from '@/shared/components/Loading';
 import { Toaster } from 'sonner';
-import PrivateRoutes from './PrivateRoutes.tsx';
-import AuthRoutes from './AuthRoutes.tsx';
+import PrivateRoutes from './private-routes/PrivateRoutes.tsx';
+import AuthRoutes from './auth-routes/AuthRoutes.tsx';
 import { useDashboardStore } from '@/dashboard/store/useDashboardStore.ts';
 
 export const AppRouter = () => {
