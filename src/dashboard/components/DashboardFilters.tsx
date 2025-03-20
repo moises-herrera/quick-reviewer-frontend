@@ -24,6 +24,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { addDays } from 'date-fns';
+import {
+  getDateWithBaseTime,
+  parseDateFilter,
+} from '@/shared/utils/date-helper';
 
 export const DashboardFilters = () => {
   const {
@@ -78,22 +82,24 @@ export const DashboardFilters = () => {
       setSelectedRepositories(
         repositoriesOptions.slice(0, 5).map(({ value }) => value)
       );
-      setSelectedStartDate(addDays(new Date(), -30).toISOString());
-      setSelectedEndDate(new Date().toISOString());
+      const startDate = parseDateFilter(addDays(new Date(), -30));
+      const endDate = parseDateFilter(new Date());
+      setSelectedStartDate(startDate);
+      setSelectedEndDate(endDate);
     }
   }, [selectedAccountName, repositoriesOptions, selectedRepositories]);
 
   useEffect(() => {
     if (selectedStartDate && selectedEndDate) {
-      const fromDate = new Date(selectedStartDate);
-      const toDate = new Date(selectedEndDate);
+      const fromDate = getDateWithBaseTime(selectedStartDate);
+      const toDate = getDateWithBaseTime(selectedEndDate);
 
       setDate({
         from: fromDate,
         to: toDate,
       });
 
-      const today = new Date();
+      const today = getDateWithBaseTime(new Date());
 
       if (fromDate === addDays(today, -7)) {
         setPresetDate('week');
@@ -126,7 +132,7 @@ export const DashboardFilters = () => {
 
     setIsDateRangeVisible(false);
 
-    const today = new Date();
+    const today = getDateWithBaseTime(new Date());
     let fromDate: Date | undefined;
 
     switch (option) {
@@ -173,8 +179,8 @@ export const DashboardFilters = () => {
       (prev) => {
         prev.set('account', selectedAccountName ?? '');
         prev.set('repositories', repositories.join('_'));
-        prev.set('startDate', date?.from?.toISOString() ?? '');
-        prev.set('endDate', date?.to?.toISOString() ?? '');
+        prev.set('from', parseDateFilter(date?.from ?? ''));
+        prev.set('to', parseDateFilter(date?.to ?? ''));
 
         return prev;
       },
