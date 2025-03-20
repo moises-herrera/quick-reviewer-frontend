@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/pagination';
 import noDataImage from '@/assets/no-data.svg';
 import { Button } from '@/components/ui/button';
+import clsx from 'clsx';
 
 interface TableWrapperProps {
   children?: JSX.Element;
@@ -93,7 +94,10 @@ export const TableWrapper: FC<TableWrapperProps> = ({
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
-                className="cursor-pointer"
+                className={clsx(
+                  'cursor-pointer',
+                  page === 1 && 'pointer-events-none opacity-50'
+                )}
                 onClick={setPreviousPage}
               />
             </PaginationItem>
@@ -113,7 +117,10 @@ export const TableWrapper: FC<TableWrapperProps> = ({
 
             <PaginationItem>
               <PaginationNext
-                className="cursor-pointer"
+                className={clsx(
+                  'cursor-pointer',
+                  page === totalPages && 'pointer-events-none opacity-50'
+                )}
                 onClick={setNextPage}
               />
             </PaginationItem>
