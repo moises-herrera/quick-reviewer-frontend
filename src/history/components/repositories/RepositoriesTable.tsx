@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/table';
 import { Repository } from '../../interfaces/repository';
 import { FC } from 'react';
-import { GITHUB_URL } from '';
+import { GITHUB_URL } from '@/constants/app.constants';
 import { Link } from 'react-router';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
