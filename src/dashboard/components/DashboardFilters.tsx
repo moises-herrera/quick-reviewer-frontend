@@ -69,7 +69,7 @@ export const DashboardFilters = () => {
 
     return data.data.map(({ id, name }) => ({
       label: name,
-      value: id.toString(),
+      value: id,
     }));
   }, [data]);
 
@@ -100,16 +100,17 @@ export const DashboardFilters = () => {
       });
 
       const today = getDateWithBaseTime(new Date());
+      const fromDateString = fromDate.toISOString();
 
-      if (fromDate === addDays(today, -7)) {
+      if (fromDateString === addDays(today, -7).toISOString()) {
         setPresetDate('week');
-      } else if (fromDate === addDays(today, -30)) {
+      } else if (fromDateString === addDays(today, -30).toISOString()) {
         setPresetDate('month');
-      } else if (fromDate === addDays(today, -90)) {
+      } else if (fromDateString === addDays(today, -90).toISOString()) {
         setPresetDate('3-months');
-      } else if (fromDate === addDays(today, -180)) {
+      } else if (fromDateString === addDays(today, -180).toISOString()) {
         setPresetDate('6-months');
-      } else if (fromDate === addDays(today, -365)) {
+      } else if (fromDateString === addDays(today, -365).toISOString()) {
         setPresetDate('year');
       } else {
         setPresetDate('custom');
