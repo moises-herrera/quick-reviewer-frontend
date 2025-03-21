@@ -5,11 +5,12 @@ import { ChartData } from '../interfaces/chart-data';
 import { PaginatedResponse } from '@/shared/interfaces/paginated-response';
 import { ReviewInfo } from '../interfaces/review-info';
 import { PaginationOptions } from '@/shared/interfaces/pagination-options';
+import { mapMetricTime } from '../utils/map-metric-time';
 
 export const getPullRequestAverageCreationCountByRepository = async (
   filters: MetricFilters
 ): Promise<Metric> => {
-  const { data } = await quickReviewerApi.post(
+  const { data } = await quickReviewerApi.post<Metric>(
     '/statistics/pull-requests/average-creation-count-by-repository',
     filters
   );
@@ -20,29 +21,29 @@ export const getPullRequestAverageCreationCountByRepository = async (
 export const getPullRequestAverageCompletionTime = async (
   filters: MetricFilters
 ): Promise<Metric> => {
-  const { data } = await quickReviewerApi.post(
+  const { data } = await quickReviewerApi.post<Metric>(
     '/statistics/pull-requests/average-completion-time',
     filters
   );
 
-  return data;
+  return mapMetricTime(data);
 };
 
 export const getInitialReviewAverageTime = async (
   filters: MetricFilters
 ): Promise<Metric> => {
-  const { data } = await quickReviewerApi.post(
+  const { data } = await quickReviewerApi.post<Metric>(
     '/statistics/pull-requests/initial-review-average-time',
     filters
   );
 
-  return data;
+  return mapMetricTime(data);
 };
 
 export const getAverageReviewCount = async (
   filters: MetricFilters
 ): Promise<Metric> => {
-  const { data } = await quickReviewerApi.post(
+  const { data } = await quickReviewerApi.post<Metric>(
     '/statistics/pull-requests/average-review-count',
     filters
   );
@@ -53,7 +54,7 @@ export const getAverageReviewCount = async (
 export const getPullRequestCountByRepository = async (
   filters: MetricFilters
 ): Promise<ChartData> => {
-  const { data } = await quickReviewerApi.post(
+  const { data } = await quickReviewerApi.post<ChartData>(
     '/statistics/pull-requests/count-by-repository',
     filters
   );
@@ -64,7 +65,7 @@ export const getPullRequestCountByRepository = async (
 export const getReviewCountByRepository = async (
   filters: MetricFilters
 ): Promise<ChartData> => {
-  const { data } = await quickReviewerApi.post(
+  const { data } = await quickReviewerApi.post<ChartData>(
     '/statistics/pull-requests/review-count-by-repository',
     filters
   );
@@ -76,12 +77,16 @@ export const getLatestReviewsData = async (
   filters: MetricFilters,
   options?: PaginationOptions
 ): Promise<PaginatedResponse<ReviewInfo>> => {
-  const { data } = await quickReviewerApi.post('/history/reviews', filters, {
-    params: {
-      page: options?.page,
-      limit: options?.limit,
-    },
-  });
+  const { data } = await quickReviewerApi.post<PaginatedResponse<ReviewInfo>>(
+    '/history/reviews',
+    filters,
+    {
+      params: {
+        page: options?.page,
+        limit: options?.limit,
+      },
+    }
+  );
 
   return data;
 };

@@ -4,7 +4,7 @@ import { DashboardHeader } from '../components/DashboardHeader';
 import { MetricsSection } from '../components/MetricsSection';
 import { ReviewsSection } from '../components/ReviewsSection';
 import { useFilters } from '../hooks/useFilters';
-import { APP_NAME } from '@/constants/app';
+import { APP_NAME } from '@/constants/app.constants';
 
 const Dashboard = () => {
   const { filters } = useFilters();

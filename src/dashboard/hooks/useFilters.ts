@@ -19,31 +19,34 @@ export const useFilters = () => {
   useEffect(() => {
     const accountName = searchParams.get('account');
     const repositories = searchParams.get('repositories');
-    const startDate = searchParams.get('startDate');
-    const endDate = searchParams.get('endDate');
+    const startDate = searchParams.get('from');
+    const endDate = searchParams.get('to');
 
     if (accountName && accountName !== selectedAccountName) {
-      setSelectedAccountName(accountName ?? null);
+      setSelectedAccountName(accountName);
+      setSelectedRepositories([]);
+      setSelectedStartDate(null);
+      setSelectedEndDate(null);
     }
 
-    if (repositories !== selectedRepositories.join('_')) {
+    if (repositories && repositories !== selectedRepositories.join('_')) {
       setSelectedRepositories(repositories?.split('_') ?? []);
     }
 
-    if (startDate !== selectedStartDate) {
-      setSelectedStartDate(startDate ?? null);
+    if (startDate && startDate !== selectedStartDate) {
+      setSelectedStartDate(startDate);
     }
 
-    if (endDate !== selectedEndDate) {
-      setSelectedEndDate(endDate ?? null);
+    if (endDate && endDate !== selectedEndDate) {
+      setSelectedEndDate(endDate);
     }
   }, [searchParams]);
 
   useEffect(() => {
     const accountName = searchParams.get('account');
     const repositories = searchParams.get('repositories');
-    const startDate = searchParams.get('startDate');
-    const endDate = searchParams.get('endDate');
+    const startDate = searchParams.get('from');
+    const endDate = searchParams.get('to');
 
     if (
       accountName !== selectedAccountName ||
@@ -66,15 +69,15 @@ export const useFilters = () => {
           }
 
           if (selectedStartDate) {
-            prev.set('startDate', selectedStartDate);
+            prev.set('from', selectedStartDate);
           } else {
-            prev.delete('startDate');
+            prev.delete('from');
           }
 
           if (selectedEndDate) {
-            prev.set('endDate', selectedEndDate);
+            prev.set('to', selectedEndDate);
           } else {
-            prev.delete('endDate');
+            prev.delete('to');
           }
 
           return prev;

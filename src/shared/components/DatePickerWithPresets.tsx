@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -10,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { formatDate } from '../utils/date-helper';
 
 interface DatePicker {
   date: Date | undefined;
@@ -37,7 +37,7 @@ export const DatePicker: FC<DatePicker> = ({
           )}
         >
           <CalendarIcon />
-          {date && format(date, 'LLL dd, y')}
+          {date && formatDate(date)}
         </Button>
       </PopoverTrigger>
       <PopoverContent

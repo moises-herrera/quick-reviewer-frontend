@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/pagination';
 import noDataImage from '@/assets/no-data.svg';
 import { Button } from '@/components/ui/button';
+import clsx from 'clsx';
 
 interface TableWrapperProps {
   children?: JSX.Element;
@@ -65,7 +66,11 @@ export const TableWrapper: FC<TableWrapperProps> = ({
 
   return (
     <>
-      <section className="mt-4 flex flex-col space-y-4 border-b border-b-slate-200">
+      <section
+        className={clsx('mt-4 flex flex-col space-y-4 ', {
+          'border-b border-b-slate-200': totalPages > 0,
+        })}
+      >
         {onSearch && (
           <Input
             className="max-w-[40%]"
@@ -93,7 +98,10 @@ export const TableWrapper: FC<TableWrapperProps> = ({
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
-                className="cursor-pointer"
+                className={clsx(
+                  'cursor-pointer',
+                  page === 1 && 'pointer-events-none opacity-50'
+                )}
                 onClick={setPreviousPage}
               />
             </PaginationItem>
@@ -113,7 +121,10 @@ export const TableWrapper: FC<TableWrapperProps> = ({
 
             <PaginationItem>
               <PaginationNext
-                className="cursor-pointer"
+                className={clsx(
+                  'cursor-pointer',
+                  page === totalPages && 'pointer-events-none opacity-50'
+                )}
                 onClick={setNextPage}
               />
             </PaginationItem>

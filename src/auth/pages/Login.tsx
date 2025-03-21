@@ -1,4 +1,4 @@
-import { VITE_API_URL } from '@/constants/app-constants';
+import { VITE_API_URL } from '@/constants/app.constants';
 import { buttonVariants } from '@/components/ui/button';
 import { Link, useSearchParams } from 'react-router';
 import Github from '@/shared/icons/Github';

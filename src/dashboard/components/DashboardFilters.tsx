@@ -24,6 +24,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { addDays } from 'date-fns';
+import {
+  getDateWithBaseTime,
+  parseDateFilter,
+} from '@/shared/utils/date-helper';
 
 export const DashboardFilters = () => {
   const {
@@ -65,7 +69,7 @@ export const DashboardFilters = () => {
 
     return data.data.map(({ id, name }) => ({
       label: name,
-      value: id.toString(),
+      value: id,
     }));
   }, [data]);
 
@@ -78,32 +82,35 @@ export const DashboardFilters = () => {
       setSelectedRepositories(
         repositoriesOptions.slice(0, 5).map(({ value }) => value)
       );
-      setSelectedStartDate(addDays(new Date(), -30).toISOString());
-      setSelectedEndDate(new Date().toISOString());
+      const startDate = parseDateFilter(addDays(new Date(), -30));
+      const endDate = parseDateFilter(new Date());
+      setSelectedStartDate(startDate);
+      setSelectedEndDate(endDate);
     }
   }, [selectedAccountName, repositoriesOptions, selectedRepositories]);
 
   useEffect(() => {
     if (selectedStartDate && selectedEndDate) {
-      const fromDate = new Date(selectedStartDate);
-      const toDate = new Date(selectedEndDate);
+      const fromDate = getDateWithBaseTime(selectedStartDate);
+      const toDate = getDateWithBaseTime(selectedEndDate);
 
       setDate({
         from: fromDate,
         to: toDate,
       });
 
-      const today = new Date();
+      const today = getDateWithBaseTime(new Date());
+      const fromDateString = fromDate.toISOString();
 
-      if (fromDate === addDays(today, -7)) {
+      if (fromDateString === addDays(today, -7).toISOString()) {
         setPresetDate('week');
-      } else if (fromDate === addDays(today, -30)) {
+      } else if (fromDateString === addDays(today, -30).toISOString()) {
         setPresetDate('month');
-      } else if (fromDate === addDays(today, -90)) {
+      } else if (fromDateString === addDays(today, -90).toISOString()) {
         setPresetDate('3-months');
-      } else if (fromDate === addDays(today, -180)) {
+      } else if (fromDateString === addDays(today, -180).toISOString()) {
         setPresetDate('6-months');
-      } else if (fromDate === addDays(today, -365)) {
+      } else if (fromDateString === addDays(today, -365).toISOString()) {
         setPresetDate('year');
       } else {
         setPresetDate('custom');
@@ -126,7 +133,7 @@ export const DashboardFilters = () => {
 
     setIsDateRangeVisible(false);
 
-    const today = new Date();
+    const today = getDateWithBaseTime(new Date());
     let fromDate: Date | undefined;
 
     switch (option) {
@@ -173,8 +180,8 @@ export const DashboardFilters = () => {
       (prev) => {
         prev.set('account', selectedAccountName ?? '');
         prev.set('repositories', repositories.join('_'));
-        prev.set('startDate', date?.from?.toISOString() ?? '');
-        prev.set('endDate', date?.to?.toISOString() ?? '');
+        prev.set('from', parseDateFilter(date?.from ?? ''));
+        prev.set('to', parseDateFilter(date?.to ?? ''));
 
         return prev;
       },

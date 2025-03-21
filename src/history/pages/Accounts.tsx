@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Organizations } from '../components/Organizations';
 import { Users } from '../components/Users';
 import { useEffect } from 'react';
-import { APP_NAME } from '@/constants/app';
+import { APP_NAME } from '@/constants/app.constants';
 
 export const Accounts = () => {
   useEffect(() => {

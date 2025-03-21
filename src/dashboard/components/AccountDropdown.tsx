@@ -32,8 +32,8 @@ export const AccountDropdown = () => {
         (prev) => {
           prev.set('account', accountName);
           prev.delete('repositories');
-          prev.delete('startDate');
-          prev.delete('endDate');
+          prev.delete('from');
+          prev.delete('to');
 
           return prev;
         },
@@ -47,8 +47,8 @@ export const AccountDropdown = () => {
       setSearchParams((prev) => {
         prev.set('account', data.data[0].name);
         prev.delete('repositories');
-        prev.delete('startDate');
-        prev.delete('endDate');
+        prev.delete('from');
+        prev.delete('to');
 
         return prev;
       });
