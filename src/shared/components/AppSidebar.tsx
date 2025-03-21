@@ -63,11 +63,8 @@ export const AppSidebar = () => {
 
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <NavLink to="/auth/login">
-                    <button
-                      onClick={onLogout}
-                      className="flex items-center gap-2 cursor-pointer"
-                    >
+                  <NavLink to="/auth/login" onClick={onLogout}>
+                    <button className="flex items-center gap-2 cursor-pointer">
                       <LogOut className="!size-5" />
                       <span>Logout</span>
                     </button>
