@@ -66,7 +66,11 @@ export const TableWrapper: FC<TableWrapperProps> = ({
 
   return (
     <>
-      <section className="mt-4 flex flex-col space-y-4 border-b border-b-slate-200">
+      <section
+        className={clsx('mt-4 flex flex-col space-y-4 ', {
+          'border-b border-b-slate-200': totalPages > 0,
+        })}
+      >
         {onSearch && (
           <Input
             className="max-w-[40%]"

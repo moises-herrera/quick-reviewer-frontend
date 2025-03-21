@@ -13,7 +13,7 @@ export const PrivateRoutesContent = () => {
       <AppSidebar />
 
       <main
-        className={clsx('min-h-screen p-4', {
+        className={clsx('min-h-[calc(100vh-69px)] p-4', {
           'w-full': !isSidebarVisible,
           'w-[calc(100%-255px)]': isSidebarVisible,
         })}
