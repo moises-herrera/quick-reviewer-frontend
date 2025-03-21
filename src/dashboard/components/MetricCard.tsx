@@ -34,7 +34,7 @@ export const MetricCard: FC<MetricCardProps> = ({
       {metric && !isError ? (
         <>
           <h3 className="font-semibold text-base">{metric.name}</h3>
-          <div className="flex gap-x-2 items-end">
+          <div className="flex gap-x-2 items-center">
             <span className="font-medium text-2xl">
               {metric.value % 1 === 0 ? metric.value : metric.value.toFixed(2)}
             </span>
