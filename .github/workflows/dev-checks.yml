@@ -1,0 +1,22 @@
+name: Dev Checks
+
+on:
+  pull_request:
+    paths-ignore: [.vscode/**, .github/**]
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '22.14.0'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build project
+        run: pnpm run build
