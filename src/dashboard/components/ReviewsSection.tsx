@@ -11,7 +11,7 @@ import clsx from 'clsx';
 import { getLatestReviewsData } from '../actions/dashboard.actions';
 import { TableWrapper } from '@/shared/components/TableWrapper';
 import { Link } from 'react-router';
-import { GITHUB_URL } from '@/constants/app-constants';
+import { GITHUB_URL } from '@/constants/app.constants';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { FC, useState } from 'react';

@@ -7,7 +7,7 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { FC } from 'react';
-import { GITHUB_URL } from '@/constants/app-constants';
+import { GITHUB_URL } from '';
 import { Link } from 'react-router';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

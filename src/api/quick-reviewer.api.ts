@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { VITE_API_URL } from '../constants/app-constants';
+import { VITE_API_URL } from '../constants/app.constants';
 import { refreshToken } from '@/auth/actions/auth.actions';
 import { useAuthStore } from '@/auth/store/useAuthStore';
 
