@@ -23,19 +23,22 @@ export const useFilters = () => {
     const endDate = searchParams.get('to');
 
     if (accountName && accountName !== selectedAccountName) {
-      setSelectedAccountName(accountName ?? null);
+      setSelectedAccountName(accountName);
+      setSelectedRepositories([]);
+      setSelectedStartDate(null);
+      setSelectedEndDate(null);
     }
 
-    if (repositories !== selectedRepositories.join('_')) {
+    if (repositories && repositories !== selectedRepositories.join('_')) {
       setSelectedRepositories(repositories?.split('_') ?? []);
     }
 
-    if (startDate !== selectedStartDate) {
-      setSelectedStartDate(startDate ?? null);
+    if (startDate && startDate !== selectedStartDate) {
+      setSelectedStartDate(startDate);
     }
 
-    if (endDate !== selectedEndDate) {
-      setSelectedEndDate(endDate ?? null);
+    if (endDate && endDate !== selectedEndDate) {
+      setSelectedEndDate(endDate);
     }
   }, [searchParams]);
 
