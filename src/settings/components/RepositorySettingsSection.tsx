@@ -1,22 +1,45 @@
 import { useAuthStore } from '@/auth/store/useAuthStore';
 import { getRepositories } from '@/history/actions/repository.actions';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { RepositorySettings } from './RepositorySettings';
 import { AxiosError } from 'axios';
 import { CardsListSkeleton } from '@/shared/components/CardsListSkeleton';
+import { useScrollPagination } from '@/shared/hooks/useScrollPagination';
+import { useMemo } from 'react';
+import { Repository } from '@/history/interfaces/repository';
+import { LoaderCircle } from 'lucide-react';
 
 export const RepositorySettingsSection = () => {
   const account = useAuthStore(({ account }) => account);
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['repository-settings', account?.id],
-    queryFn: () =>
-      getRepositories({
-        ownerName: account?.name || '',
-        page: 1,
-        limit: 100,
-        includeSettings: true,
-      }),
-    refetchOnWindowFocus: false,
+  const { data, isLoading, isFetchingNextPage, error, fetchNextPage } =
+    useInfiniteQuery({
+      queryKey: ['repository-settings', account?.id],
+      queryFn: ({ pageParam }) =>
+        getRepositories({
+          ownerName: account?.name || '',
+          page: pageParam,
+          limit: 3,
+          includeSettings: true,
+        }),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => lastPage.page + 1,
+      getPreviousPageParam: (lastPage) => lastPage.page - 1,
+      refetchOnWindowFocus: false,
+    });
+
+  const allRepositories = useMemo(() => {
+    return (
+      data?.pages.reduce((repositories, page) => {
+        return [...repositories, ...page.data];
+      }, [] as Repository[]) || []
+    );
+  }, [data?.pages]);
+
+  useScrollPagination({
+    isLoading: isLoading || isFetchingNextPage,
+    currentRecords: allRepositories.length || 0,
+    total: data?.pages[0].total || 0,
+    fetchNextPage,
   });
   const hasNotPermissions =
     error instanceof AxiosError && error?.status === 403;
@@ -37,13 +60,18 @@ export const RepositorySettingsSection = () => {
       </div>
 
       {!hasNotPermissions &&
-        data?.data.map((repository) => (
+        allRepositories.map((repository) => (
           <RepositorySettings
             key={repository.id}
             repository={repository}
             accountId={account?.id}
           />
         ))}
+      {isFetchingNextPage && (
+        <div className="flex justify-center mt-4">
+          <LoaderCircle className="!size-6 animate-spin" />
+        </div>
+      )}
     </div>
   );
 };
