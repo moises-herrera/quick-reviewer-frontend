@@ -1,4 +1,4 @@
-import { LayoutGrid, LogOut, User } from 'lucide-react';
+import { LayoutGrid, LogOut, Settings } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -12,6 +12,7 @@ import { NavLink, useLocation } from 'react-router';
 import { useAuthStore } from '@/auth/store/useAuthStore';
 import Github from '../icons/Github';
 import { useDashboardStore } from '@/dashboard/store/useDashboardStore';
+import { AccountDropdown } from '@/dashboard/components/AccountDropdown';
 
 const items = [
   {
@@ -25,15 +26,15 @@ const items = [
     icon: () => <Github fill="#000" className="!size-5" />,
   },
   {
-    title: 'Profile',
-    url: '/profile',
-    icon: () => <User className="!size-5" />,
+    title: 'Settings',
+    url: '/settings',
+    icon: () => <Settings className="!size-5" />,
   },
 ];
 
 export const AppSidebar = () => {
   const { pathname } = useLocation();
-  const clearFilters = useDashboardStore(({ clearFilters }) => clearFilters);
+  const clearFilters = useDashboardStore(({ resetFilters: clearFilters }) => clearFilters);
   const logout = useAuthStore(({ logout }) => logout);
 
   const onLogout = () => {
@@ -47,6 +48,10 @@ export const AppSidebar = () => {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <AccountDropdown />
+              </SidebarMenuItem>
+
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton

@@ -13,7 +13,7 @@ export const privateRoutes: RouteData[] = [
     ),
   },
   {
-    path: '/profile',
-    element: LazyLoadRoute(() => import('../../profile/pages/Profile.tsx')),
+    path: '/settings',
+    element: LazyLoadRoute(() => import('../../settings/pages/Settings.tsx')),
   },
 ];

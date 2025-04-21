@@ -8,9 +8,14 @@ export type AuthStatus = 'authenticated' | 'not-authenticated' | 'checking';
 export interface AuthState {
   user?: User;
   status: AuthStatus;
+  account?: {
+    id: string;
+    name: string;
+  };
   setUser: (user: User) => void;
   checkStatus: () => Promise<boolean>;
   logout: () => void;
+  setAccount: (data?: { id: string; name: string }) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -39,6 +44,9 @@ export const useAuthStore = create<AuthState>()(
         await logoutUser();
 
         set({ user: undefined, status: 'not-authenticated' });
+      },
+      setAccount: (data) => {
+        set({ account: data });
       },
     }),
     {

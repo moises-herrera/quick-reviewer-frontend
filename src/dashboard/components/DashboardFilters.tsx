@@ -80,7 +80,7 @@ export const DashboardFilters = () => {
   useEffect(() => {
     if (repositoriesOptions.length && !selectedRepositories.length) {
       setSelectedRepositories(
-        repositoriesOptions.slice(0, 5).map(({ value }) => value)
+        repositoriesOptions.slice(0, 6).map(({ value }) => value)
       );
       const startDate = parseDateFilter(addDays(new Date(), -30));
       const endDate = parseDateFilter(new Date());
