@@ -15,7 +15,7 @@ const Settings = () => {
   }, []);
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className="flex flex-col gap-8">
       <article>
         <h2 className="text-2xl font-semibold mb-3">
           User information from GitHub
