@@ -18,7 +18,7 @@ export const RepositorySettingsSection = () => {
         getRepositories({
           ownerName: account?.name || '',
           page: pageParam,
-          limit: 3,
+          limit: 10,
           includeSettings: true,
         }),
       initialPageParam: 1,
@@ -65,6 +65,7 @@ export const RepositorySettingsSection = () => {
             key={repository.id}
             repository={repository}
             accountId={account?.id}
+            accountName={account?.name}
           />
         ))}
       {isFetchingNextPage && (

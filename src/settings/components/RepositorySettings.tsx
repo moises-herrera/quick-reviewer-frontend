@@ -6,16 +6,19 @@ import { BotSettings } from '../interfaces/bot-settings';
 import {
   resetRepositorySettings,
   updateRepositorySettings,
-} from '../actions/repository-settings.actions';
+} from '@/settings/actions/repository-settings.actions';
+import { GITHUB_URL } from '@/constants/app.constants';
 
 interface RepositorySettingsProps {
   repository: Repository;
   accountId?: string;
+  accountName?: string;
 }
 
 export const RepositorySettings: FC<RepositorySettingsProps> = ({
   repository,
   accountId,
+  accountName,
 }) => {
   const queryClient = useQueryClient();
   const updateRepositorySettingsMutation = useMutation({
@@ -56,8 +59,15 @@ export const RepositorySettings: FC<RepositorySettingsProps> = ({
   };
 
   return (
-    <>
-      <h4 className="text-lg font-medium">{repository.name}</h4>
+    <div className="flex flex-col gap-3 border-b border-slate-200 pb-4">
+      <a
+        href={`${GITHUB_URL}/${accountName}/${repository.name}`}
+        target="_blank"
+      >
+        <h4 className="w-fit text-lg font-medium text-blue-500 hover:text-blue-700 hover:underline">
+          {repository.name}
+        </h4>
+      </a>
 
       <SwitchFormControl
         label="Use account configuration for this repository"
@@ -97,6 +107,6 @@ export const RepositorySettings: FC<RepositorySettingsProps> = ({
           />
         </>
       )}
-    </>
+    </div>
   );
 };
