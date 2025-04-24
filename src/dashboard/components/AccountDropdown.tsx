@@ -8,15 +8,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useQuery } from '@tanstack/react-query';
 import { ChevronDown } from 'lucide-react';
-import { useSearchParams } from 'react-router';
-import { useDashboardStore } from '../store/useDashboardStore';
 import { useEffect } from 'react';
+import { useAuthStore } from '@/auth/store/useAuthStore';
+import { useDashboardStore } from '../store/useDashboardStore';
 
 export const AccountDropdown = () => {
-  const selectedAccountName = useDashboardStore(
-    ({ selectedAccountName }) => selectedAccountName
-  );
-  const [_, setSearchParams] = useSearchParams();
+  const selectedAccountName = useAuthStore(({ account }) => account?.name);
+  const setAccount = useAuthStore(({ setAccount }) => setAccount);
+  const resetFilters = useDashboardStore(({ resetFilters }) => resetFilters);
   const { data, isLoading } = useQuery({
     queryKey: ['accounts'],
     queryFn: () =>
@@ -26,31 +25,29 @@ export const AccountDropdown = () => {
       }),
   });
 
-  const handleAccountChange = (accountName: string) => {
-    if (accountName !== selectedAccountName) {
-      setSearchParams(
-        (prev) => {
-          prev.set('account', accountName);
-          prev.delete('repositories');
-          prev.delete('from');
-          prev.delete('to');
+  const handleAccountChange = (id: string) => {
+    const account = data?.data.find((account) => account.id === id);
 
-          return prev;
-        },
-        { replace: true }
-      );
+    if (account && account?.name !== selectedAccountName) {
+      setAccount({
+        id: account.id,
+        name: account.name,
+      });
+      resetFilters({
+        selectedAccountName: account.name,
+      });
     }
   };
 
   useEffect(() => {
     if (data?.data.length && !selectedAccountName) {
-      setSearchParams((prev) => {
-        prev.set('account', data.data[0].name);
-        prev.delete('repositories');
-        prev.delete('from');
-        prev.delete('to');
-
-        return prev;
+      const defaultAccount = data.data[0];
+      setAccount({
+        id: defaultAccount.id,
+        name: defaultAccount.name,
+      });
+      resetFilters({
+        selectedAccountName: defaultAccount.name,
       });
     }
   }, [data]);
@@ -60,12 +57,12 @@ export const AccountDropdown = () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild disabled={isLoading}>
           <button className="flex items-center gap-x-2 cursor-pointer p-2 hover:bg-zinc-50 rounded-md transition-colors duration-200 ease-in-out">
-            <span className="font-semibold text-2xl truncate">
+            <span className="font-semibold text-lg truncate">
               {selectedAccountName === null
                 ? 'Select an account'
                 : selectedAccountName}
             </span>
-            <ChevronDown />
+            <ChevronDown className="!size-5" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -78,8 +75,8 @@ export const AccountDropdown = () => {
           >
             {data?.data.map((account) => (
               <DropdownMenuRadioItem
-                key={account.name}
-                value={account.name}
+                key={account.id}
+                value={account.id}
                 className="cursor-pointer truncate pl-3"
               >
                 {account.name}

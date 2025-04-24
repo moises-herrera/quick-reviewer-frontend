@@ -1,10 +1,9 @@
-import { AccountDropdown } from './AccountDropdown';
 import { DashboardFilters } from './DashboardFilters';
 
 export const DashboardHeader = () => {
   return (
     <>
-      <AccountDropdown />
+      <h2 className="text-2xl font-semibold">Dashboard</h2>
       <DashboardFilters />
     </>
   );

@@ -1,24 +1,21 @@
 import { useAuthStore } from '@/auth/store/useAuthStore';
 import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { APP_NAME, GITHUB_URL } from '@/constants/app.constants';
+import { GITHUB_URL } from '@/constants/app.constants';
 import { cn } from '@/lib/utils';
-import { useEffect } from 'react';
 import { Link } from 'react-router';
 
-const Profile = () => {
+export const UserSection = () => {
   const user = useAuthStore(({ user }) => user);
 
-  useEffect(() => {
-    document.title = `${APP_NAME} - Profile`;
-  }, []);
-
   return (
-    <section className="flex flex-col gap-3">
-      <h2 className="text-2xl font-semibold">Profile</h2>
+    <article>
+      <h2 className="text-2xl font-semibold mb-3">
+        User information from GitHub
+      </h2>
 
       <Card>
-        <CardContent className="flex flex-col gap-2">
+        <CardContent className="flex flex-col">
           <p>
             <span className="font-medium">Name:</span>{' '}
             {user?.name ?? 'GitHub user'}
@@ -41,8 +38,6 @@ const Profile = () => {
           </p>
         </CardContent>
       </Card>
-    </section>
+    </article>
   );
 };
-
-export default Profile;

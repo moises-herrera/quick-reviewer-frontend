@@ -1,9 +1,10 @@
-import { useSearchParams } from 'react-router';
+import { useLocation, useSearchParams } from 'react-router';
 import { MetricFilters } from '../interfaces/metric-filters';
 import { useDashboardStore } from '../store/useDashboardStore';
 import { useEffect } from 'react';
 
 export const useFilters = () => {
+  const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const {
     selectedAccountName,
@@ -49,10 +50,11 @@ export const useFilters = () => {
     const endDate = searchParams.get('to');
 
     if (
-      accountName !== selectedAccountName ||
-      repositories !== selectedRepositories.join('_') ||
-      startDate !== selectedStartDate ||
-      endDate !== selectedEndDate
+      pathname.startsWith('/dashboard') &&
+      (accountName !== selectedAccountName ||
+        repositories !== selectedRepositories.join('_') ||
+        startDate !== selectedStartDate ||
+        endDate !== selectedEndDate)
     ) {
       setSearchParams(
         (prev) => {

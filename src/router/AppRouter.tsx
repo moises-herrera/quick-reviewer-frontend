@@ -12,7 +12,7 @@ export const AppRouter = () => {
   const navigate = useNavigate();
   const status = useAuthStore(({ status }) => status);
   const checkStatus = useAuthStore(({ checkStatus }) => checkStatus);
-  const clearFilters = useDashboardStore(({ clearFilters }) => clearFilters);
+  const clearFilters = useDashboardStore(({ resetFilters: clearFilters }) => clearFilters);
 
   const redirectToLogin = () => {
     navigate('/auth/login', { replace: true });
