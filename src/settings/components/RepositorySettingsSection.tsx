@@ -28,11 +28,15 @@ export const RepositorySettingsSection = () => {
     });
 
   const allRepositories = useMemo(() => {
-    return (
-      data?.pages.reduce((repositories, page) => {
+    if (!data?.pages) {
+      return [];
+    }
+
+    return data.pages
+      .reduce((repositories, page) => {
         return [...repositories, ...page.data];
-      }, [] as Repository[]) || []
-    );
+      }, [] as Repository[])
+      .filter(({ users }) => users[0].canConfigureBot);
   }, [data?.pages]);
 
   useScrollPagination({
@@ -55,7 +59,9 @@ export const RepositorySettingsSection = () => {
         <p className="text-gray-600">
           {hasNotPermissions
             ? 'You do not have permission to manage these settings. Only an admin or maintainer can make changes.'
-            : 'Manage your repository settings here.'}
+            : allRepositories.length > 0
+            ? 'Manage your repository settings here.'
+            : 'Here will be listed the repositories you can manage.'}
         </p>
       </div>
 

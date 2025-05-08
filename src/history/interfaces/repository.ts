@@ -7,4 +7,7 @@ export interface Repository {
   updatedAt: Date;
   ownerId: string;
   settings?: BotSettings;
+  users: {
+    canConfigureBot?: boolean;
+  }[];
 }
